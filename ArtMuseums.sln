@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtMuseums", "ArtMuseums\ArtMuseums.csproj", "{1FAAEE45-1B3B-493A-9EC1-B9A12307C611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArtMuseums", "ArtMuseums\ArtMuseums.csproj", "{1FAAEE45-1B3B-493A-9EC1-B9A12307C611}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArtMuseum", "ArtMuseum\ArtMuseum.csproj", "{87E6A906-EF80-4F35-B3E1-D45BF58F8E87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{31AA121C-78D6-4E21-B3E0-101E526BD254}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{7878F12F-6F6A-4F11-92BD-5168D0488D0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{1FAAEE45-1B3B-493A-9EC1-B9A12307C611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FAAEE45-1B3B-493A-9EC1-B9A12307C611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FAAEE45-1B3B-493A-9EC1-B9A12307C611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E6A906-EF80-4F35-B3E1-D45BF58F8E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E6A906-EF80-4F35-B3E1-D45BF58F8E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E6A906-EF80-4F35-B3E1-D45BF58F8E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E6A906-EF80-4F35-B3E1-D45BF58F8E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31AA121C-78D6-4E21-B3E0-101E526BD254}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31AA121C-78D6-4E21-B3E0-101E526BD254}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31AA121C-78D6-4E21-B3E0-101E526BD254}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31AA121C-78D6-4E21-B3E0-101E526BD254}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7878F12F-6F6A-4F11-92BD-5168D0488D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7878F12F-6F6A-4F11-92BD-5168D0488D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7878F12F-6F6A-4F11-92BD-5168D0488D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7878F12F-6F6A-4F11-92BD-5168D0488D0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
