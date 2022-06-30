@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ArtMuseums.Migrations
 {
-    public partial class DatabaseCreation : Migration
+    public partial class databaseCreation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,8 +72,7 @@ namespace ArtMuseums.Migrations
                 name: "Paintings",
                 columns: table => new
                 {
-                    PaintingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaintingId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -142,6 +141,56 @@ namespace ArtMuseums.Migrations
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "ArtMuseums",
+                columns: new[] { "ArtMuseumId", "Adress" },
+                values: new object[,]
+                {
+                    { new Guid("033c8277-9be5-451b-9936-87f4b07caae7"), "General art museum, st qwerty, 34" },
+                    { new Guid("df77f745-2310-4bba-b157-c4f3434ff749"), "Museum of modern arts, street yung, 25" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Artists",
+                columns: new[] { "ArtistId", "Country", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"), "France", "Van Gogh" },
+                    { new Guid("e528467c-2dfe-48fa-9e1a-739d2d0c0cd2"), "Russia", "Ivan Aivazovski" },
+                    { new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"), "Belarus", "Mark Shagal" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Exhibitions",
+                columns: new[] { "ExpositionId", "ArtMuseumId", "Description", "Name", "Picture" },
+                values: new object[] { new Guid("e177f248-6517-449c-9200-16b673c5beff"), new Guid("df77f745-2310-4bba-b157-c4f3434ff749"), "exhibition of famous paintings from different times", "arts of world", null });
+
+            migrationBuilder.InsertData(
+                table: "Exhibitions",
+                columns: new[] { "ExpositionId", "ArtMuseumId", "Description", "Name", "Picture" },
+                values: new object[] { new Guid("e5368172-b396-4960-8e67-ddffceefc98b"), new Guid("033c8277-9be5-451b-9936-87f4b07caae7"), null, "exhibition of belarusian artists", null });
+
+            migrationBuilder.InsertData(
+                table: "Paintings",
+                columns: new[] { "PaintingId", "ArtistId", "Description", "ExhibitionId", "Name", "Picture", "Year" },
+                values: new object[,]
+                {
+                    { new Guid("07ba5109-8aec-48ee-b7d9-21e2ce4f3312"), new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"), "Прогулка - Марк Захарович Шагал. 1917-1918. Холст, масло 169,6x163,4 см", new Guid("e5368172-b396-4960-8e67-ddffceefc98b"), "a walk", "D:/asp.net core/pictures/progulka-shagal+.jpg", 1918 },
+                    { new Guid("58bde6fc-74f6-41ba-8d60-39424211cfc6"), new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"), null, new Guid("e5368172-b396-4960-8e67-ddffceefc98b"), "Starry Night", "D:/asp.net core/pictures/VanGogh-starry_night_ballance1.jpg", 1889 },
+                    { new Guid("9d944131-b6ee-4b76-825b-fa6163a27787"), new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"), null, new Guid("e177f248-6517-449c-9200-16b673c5beff"), "Three Candles", "D:/asp.net core/pictures/triCvechiShagal.jpg", 1940 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Tours",
+                columns: new[] { "TourId", "Description", "ExhibitionId", "TourPlaces" },
+                values: new object[,]
+                {
+                    { new Guid("579acbef-ffbe-42fe-b26d-5f8befa41889"), null, new Guid("e5368172-b396-4960-8e67-ddffceefc98b"), 5 },
+                    { new Guid("769a5cb1-9b03-447f-a2d9-c8589a0c901d"), null, new Guid("e177f248-6517-449c-9200-16b673c5beff"), 20 },
+                    { new Guid("805ed4d2-bcf3-48cf-a722-94db044d43ac"), null, new Guid("e5368172-b396-4960-8e67-ddffceefc98b"), 20 },
+                    { new Guid("b177f615-4df7-4aa8-9f98-21f7a9a18f32"), null, new Guid("e177f248-6517-449c-9200-16b673c5beff"), 5 }
                 });
 
             migrationBuilder.CreateIndex(

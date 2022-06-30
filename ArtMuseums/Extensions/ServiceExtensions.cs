@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Repository;
 
 namespace ArtMuseums.Extensions
 {
@@ -31,5 +32,8 @@ namespace ArtMuseums.Extensions
             services.AddDbContext<Entities.RepositoryContext>(opts =>
             opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b=>
             b.MigrationsAssembly("ArtMuseums")));
+
+        public static void ConfigureRepositoryMAnager(this IServiceCollection services) =>
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Configuration;
+using Entities.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,15 @@ namespace Entities
         public RepositoryContext(DbContextOptions options) : base(options)
         {
 
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new ArtMuseumConfiguration());
+            modelBuilder.ApplyConfiguration(new ArtistConfiguration());
+            modelBuilder.ApplyConfiguration(new PaintingConfiguration());
+            modelBuilder.ApplyConfiguration(new ExhibitionConfiguration());
+            modelBuilder.ApplyConfiguration(new TourConfiguration());
         }
 
         public DbSet<Artist> Artists { get; set; }
