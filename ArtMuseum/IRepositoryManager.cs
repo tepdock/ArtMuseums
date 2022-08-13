@@ -15,6 +15,7 @@ namespace ArtMuseum
         IArtMuseumRepository ArtMuseumRepository { get; }
         IExhibitionRepository ExhibitionRepository { get; }
         IPaintingRepository PaintingRepository { get; }
+        IBusketRepository BusketRepository { get; }
         void Save();
     }
 }

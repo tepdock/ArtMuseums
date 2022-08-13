@@ -76,6 +76,11 @@ namespace ArtMuseums.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ArtMuseums");
@@ -84,13 +89,33 @@ namespace ArtMuseums.Migrations
                         new
                         {
                             Id = new Guid("033c8277-9be5-451b-9936-87f4b07caae7"),
-                            Adress = "General art museum, st qwerty, 34"
+                            Adress = "st qwerty, 34",
+                            Name = "General art museum"
                         },
                         new
                         {
                             Id = new Guid("df77f745-2310-4bba-b157-c4f3434ff749"),
-                            Adress = "Museum of modern arts, street yung, 25"
+                            Adress = "street yung, 25",
+                            Name = "Museum of modern arts"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.Busket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("PurchaseId");
+
+                    b.Property<Guid>("TourId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Buskets");
                 });
 
             modelBuilder.Entity("Entities.Models.Exhibition", b =>

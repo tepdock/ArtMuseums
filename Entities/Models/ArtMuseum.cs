@@ -17,6 +17,10 @@ namespace Entities.Models
         [MaxLength(100, ErrorMessage = "Max Length for the Adress is 100 characters")]
         public string Adress { get; set; }
 
+        [Required(ErrorMessage = "Museum's Name is a required field")]
+        [MaxLength(100, ErrorMessage = "Max Length for the Name is 100 characters")]
+        public string Name { get; set; }
+
         public ICollection<Exhibition> Exhibitions { get; set; }
     }
 }

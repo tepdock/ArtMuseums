@@ -16,9 +16,13 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Tour> GetAllTours(bool trackChanges)=>
-            FindAll(trackChanges)
-            .OrderBy(t => t.Tickets)
+        public Tour GetTour(Guid tourId, bool trackChanges)=>
+            FindByCondition(t => t.Id.Equals(tourId), trackChanges)
+            .First();
+
+        public IEnumerable<Tour> GetAllTours(Guid exhibitionId, bool trackChanges) =>
+            FindByCondition(t => t.ExhibitionId.Equals(exhibitionId), trackChanges)
+            .OrderByDescending(t => t.ExhibitionId)
             .ToList();
     }
 }

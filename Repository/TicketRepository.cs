@@ -16,9 +16,22 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Ticket> GetAllTickets(bool trackChanges)=>
-            FindAll(trackChanges)
+        public Ticket GetTicketById(Guid ticketId, bool trackChanges) =>
+            FindByCondition(t => t.Id.Equals(ticketId), trackChanges)
+            .First();
+
+        public IEnumerable<Ticket> GetAllTickets(Guid TourId, bool trackChanges) =>
+            FindByCondition(t => t.TourId.Equals(TourId), trackChanges)
             .OrderBy(t => t.TicketCost)
             .ToList();
+
+        public IEnumerable<Ticket> GetTicketsByUser(Guid UserId, bool trackChanges)=>
+            FindByCondition(t => t.UserId.Equals(UserId), trackChanges)
+            .OrderBy(t => t.TicketCost)
+            .ToList();
+
+        public void CreateTicket(Ticket ticket) => Create(ticket);
+
+        public void DeleteTicket(Ticket ticket) => Delete(ticket);
     }
 }

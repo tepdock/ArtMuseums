@@ -17,12 +17,14 @@ namespace Entities.Configuration
                     new Models.ArtMuseum
                     {
                         Id = new Guid("033c8277-9be5-451b-9936-87f4b07caae7"),
-                        Adress = "General art museum, st qwerty, 34"
+                        Name = "General art museum",
+                        Adress = "st qwerty, 34"
                     },
                     new Models.ArtMuseum
                     {
                         Id=new Guid("df77f745-2310-4bba-b157-c4f3434ff749"),
-                        Adress = "Museum of modern arts, street yung, 25"
+                        Name = "Museum of modern arts",
+                        Adress = "street yung, 25"
                     }
                 );
         }

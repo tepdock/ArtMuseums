@@ -20,5 +20,17 @@ namespace Repository
             FindAll(trackChanges)
             .OrderBy(u => u.Login)
             .ToList();
+
+        public User GetUser(Guid id, bool trackChanges) =>
+            FindByCondition(u => u.Id.Equals(id), trackChanges)
+            .First();
+
+        public User GetUserByLogin(string login, bool trackChanges) =>
+            FindByCondition(u => u.Login.Equals(login), trackChanges)
+            .First();
+
+        public User GetUserByPassword(string password, bool trackChanges) =>
+            FindByCondition(u => u.Password.Equals(password), trackChanges)
+            .First();
     }
 }

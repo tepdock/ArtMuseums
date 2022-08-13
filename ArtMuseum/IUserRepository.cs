@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,9 @@ namespace ArtMuseum
 {
     public interface IUserRepository
     {
-        IEnumerable<Entities.Models.User> GetAllUsers(bool trackChanges);
+        IEnumerable<User> GetAllUsers(bool trackChanges);
+        User GetUser(Guid id, bool trackChanges);
+        User GetUserByLogin(string login, bool trackChanges);
+        User GetUserByPassword(string password, bool trackChanges);
     }
 }

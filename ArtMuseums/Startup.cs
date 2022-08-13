@@ -1,7 +1,10 @@
 using ArtMuseum;
 using ArtMuseums.Extensions;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using JavaScriptEngineSwitcher.V8;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
+using React.AspNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +40,7 @@ namespace ArtMuseums
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryMAnager();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
         }
@@ -55,6 +60,7 @@ namespace ArtMuseums
 
             app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseCors("CorsPolicy");

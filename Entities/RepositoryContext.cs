@@ -33,5 +33,6 @@ namespace Entities
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Tour> Tours { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Busket> Buskets { get; set; }
     }
 }

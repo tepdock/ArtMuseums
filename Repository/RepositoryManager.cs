@@ -18,6 +18,7 @@ namespace Repository
         private ITourRepository _tourRepository;
         private IUserRepository _userRepository;
         private IExhibitionRepository _exhibitionRepository;
+        private IBusketRepository _basketRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -98,6 +99,17 @@ namespace Repository
                     _paintingRepository = new PaintingRepository(_repositoryContext);
 
                 return _paintingRepository;
+            }
+        }
+
+        public IBusketRepository BusketRepository
+        {
+            get
+            {
+                if (_basketRepository == null)
+                    _basketRepository = new BusketRepository(_repositoryContext);
+
+                return _basketRepository;
             }
         }
 

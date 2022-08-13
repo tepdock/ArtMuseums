@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.19.0" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.19.0" />
+    <PackageReference Include="Microsoft.ClearScript.V8.Native.win-x64" Version="7.3.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="React.AspNet" Version="5.2.12" />
   </ItemGroup>
 
   <ItemGroup>

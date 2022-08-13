@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace ArtMuseum
 {
     public interface ITicketRepository
     {
-        IEnumerable<Entities.Models.Ticket> GetAllTickets(bool trackChanges);
+        IEnumerable<Ticket> GetAllTickets(Guid TourId, bool trackChanges);
+        IEnumerable<Ticket> GetTicketsByUser(Guid UserId, bool trackChanges);
+        Ticket GetTicketById(Guid ticketId, bool trackChanges);
+        void CreateTicket(Ticket ticket);
+        void DeleteTicket(Ticket ticket);
     }
 }
