@@ -1,6 +1,9 @@
 ﻿using ArtMuseum;
 using Entities;
 using Entities.Models;
+using Entities.RequestFeatures;
+using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,23 +20,20 @@ namespace Repository
            
         }
 
-        public IEnumerable<Artist> GetAllArtists(bool trackChanges)=>
-            FindAll(trackChanges)
-            .OrderBy(a=>a.Name)
-            .ToList();
+        public async Task<PagedList<Artist>> GetAllArtists(ArtistsParameters artistsParameters, bool trackChanges)
+        {
+            var artists = await FindAll(trackChanges)
+                .Search(artistsParameters.SearchTerm)
+                .OrderBy(a => a.Name)
+                .ToListAsync();
 
-        public IEnumerable<Artist> GetAllArtistsByCountry(string country, bool trackChanges) =>
-            FindByCondition(a => a.Country.Equals(country), trackChanges)
-            .OrderBy(a => a.Name)
-            .ToList();
+            return PagedList<Artist>
+                .ToPagedList(artists, artistsParameters.PageNumber, artistsParameters.PageSize);
+        }
 
-        public Artist GetArtistByName(string artistName, bool trackChanges) =>
-            FindByCondition(a => a.Name.Equals(artistName), trackChanges)
-            .SingleOrDefault();
-
-        public Artist GetArtist(Guid artisId, bool trackChanges)=>
-            FindByCondition(a => a.Id.Equals(artisId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Artist?> GetArtist(Guid artisId, bool trackChanges)=>
+            await FindByCondition(a => a.Id.Equals(artisId), trackChanges)
+            .SingleOrDefaultAsync();
 
         public void CreateArtist(Artist artist) => Create(artist);
 

@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.EntityFrameworkCore;
+using Entities.RequestFeatures;
+using Repository.Extensions;
 
 namespace Repository
 {
@@ -16,14 +19,21 @@ namespace Repository
         {
         }
 
-        public Exhibition GetExhibition(Guid museumId, Guid exhibitionId, bool trackChanges) =>
-            FindByCondition(e => e.Id.Equals(exhibitionId) && e.ArtMuseumId.Equals(museumId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Exhibition?> GetExhibition(Guid museumId, Guid exhibitionId, bool trackChanges) =>
+            await FindByCondition(e => e.Id.Equals(exhibitionId) && e.ArtMuseumId.Equals(museumId), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public IEnumerable<Exhibition> GetAllExhibitions(Guid museumId, bool trackChanges) =>
-            FindByCondition(e => e.ArtMuseumId.Equals(museumId), trackChanges)
-            .OrderBy(e => e.Name)
-            .ToList();
+        public async Task<PagedList<Exhibition>> GetAllExhibitions(Guid museumId, ExhibitionsParameters exhibitionsParameters,
+            bool trackChanges)
+        {
+            var exhibitions = await FindAll(trackChanges)
+                .Search(exhibitionsParameters.SearchTerm)
+                .OrderBy(e => e.Name)
+                .ToListAsync();
+
+            return PagedList<Exhibition>
+                .ToPagedList(exhibitions, exhibitionsParameters.PageNumber, exhibitionsParameters.PageSize);
+        }
 
         public void CreateExhibition(Guid museumId, Exhibition exhibition) 
         {

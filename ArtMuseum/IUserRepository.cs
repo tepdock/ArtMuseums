@@ -9,9 +9,9 @@ namespace ArtMuseum
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllUsers(bool trackChanges);
-        User GetUser(Guid id, bool trackChanges);
-        User GetUserByLogin(string login, bool trackChanges);
-        User GetUserByPassword(string password, bool trackChanges);
+        Task<IEnumerable<User>> GetAllUsers(bool trackChanges);
+        Task<User> GetUser(Guid id, bool trackChanges);
+        Task<User> GetUserByLogin(string login, bool trackChanges);
+        Task<User> GetUserByPassword(string password, bool trackChanges);
     }
 }

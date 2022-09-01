@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.RequestFeatures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,8 @@ namespace ArtMuseum
 {
     public interface IArtMuseumRepository
     {
-        IEnumerable<Entities.Models.ArtMuseum> GetAllMuseums(bool trackChanges);
-        Entities.Models.ArtMuseum GetMuseum(Guid museumId, bool trackChanges);
-        Entities.Models.ArtMuseum GetMuseumByName(string name, bool trackChanges);
+        Task<IEnumerable<Entities.Models.ArtMuseum>> GetAllMuseums(MuseumParameters museumParameters, bool trackChanges);
+        Task<Entities.Models.ArtMuseum> GetMuseum(Guid museumId, bool trackChanges);
         void CreateMuseum(Entities.Models.ArtMuseum museum);
         void DeleteMuseum(Entities.Models.ArtMuseum museum);
     }

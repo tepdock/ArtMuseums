@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class TicketForCreationDto : TicketManipulationDto
+    public class ArtistForUpdateDto : ArtistManipulationDto
     {
-
+        public IEnumerable<PaintingForCreationDto> Paintings { get; set; }
     }
 }

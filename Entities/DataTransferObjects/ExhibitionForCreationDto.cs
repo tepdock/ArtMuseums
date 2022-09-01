@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class ExhibitionForCreationDto
+    public class ExhibitionForCreationDto : ExhibitionManipulationDto
     {
-        public string Name { get; set; }
         public string Description { get; set; }
         public string Picture { get; set; }
     }

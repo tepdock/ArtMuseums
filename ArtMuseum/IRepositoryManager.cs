@@ -16,6 +16,6 @@ namespace ArtMuseum
         IExhibitionRepository ExhibitionRepository { get; }
         IPaintingRepository PaintingRepository { get; }
         IBusketRepository BusketRepository { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

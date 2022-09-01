@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class PaintingForCreationDto : PaintingManipulationDto
+    public class ExhibitionForUpdateDto : ExhibitionManipulationDto
     {
         public string Description { get; set; }
+        public string Picture { get; set; }
+
+        public IEnumerable<TourForCreationDto> Tours { get; set; }
     }
 }

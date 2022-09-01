@@ -1,11 +1,15 @@
 ﻿using ArtMuseum;
+using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
@@ -26,26 +30,38 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPaintings()
+        public async Task<IActionResult> GetPaintings([FromQuery]
+        PaintigsParameters paintigsParameters)
         {
-            var paintings = _repository.PaintingRepository.GetAllPaintings(trackChanges: false);
+            if (!paintigsParameters.ValidYearRange)
+                return BadRequest("Max year can't be less than min year");
+
+            var paintings = await _repository.PaintingRepository.GetAllPaintings(paintigsParameters,
+                trackChanges: false);
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(paintings.MetaData));
 
             var paintingsDto = _mapper.Map<IEnumerable<PaintingDto>>(paintings);
 
             return Ok(paintingsDto);
         }
 
-        [HttpGet("artist/{id}")]
-        public IActionResult GetPaintingsByArtist(Guid artistId)
+        [HttpGet("artist/{artistId}")]
+        public async Task<IActionResult> GetPaintingsByArtist(Guid artistId, [FromQuery]
+        PaintigsParameters paintigsParameters)
         {
-            var artist = _repository.ArtistRepository.GetArtist(artistId, trackChanges: false);
+            var artist = await _repository.ArtistRepository.GetArtist(artistId, trackChanges: false);
             if(artist == null)
             {
                 _logger.Info($"artist with id: {artistId} doesnt exist");
                 return NotFound();
             }
 
-            var paintigs = _repository.PaintingRepository.GetPaintingsByAuthor(artistId, trackChanges: false);
+            var paintigs = await _repository.PaintingRepository.GetPaintingsByAuthor(artistId, paintigsParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", 
+                JsonConvert.SerializeObject(paintigs.MetaData));
 
             var paintingsDto = _mapper.Map<IEnumerable<PaintingDto>>(paintigs);
 
@@ -53,9 +69,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetPaintingById")]
-        public IActionResult GetPainting(Guid id)
+        public async Task<IActionResult> GetPainting(Guid id)
         {
-            var painting = _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
+            var painting = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
 
             if(painting == null)
             {
@@ -70,19 +86,14 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("exhibition/{exhibitionId}")]
-        public IActionResult GetPaintingInExhibition(Guid exhibitionId)
+        public async Task<IActionResult> GetPaintingInExhibition(Guid exhibitionId, [FromQuery]
+        PaintigsParameters paintigsParameters)
         {
-            var paintings = _repository.PaintingRepository.GetPaintingsByExhibition(exhibitionId, trackChanges: false);
+            var paintings = await _repository.PaintingRepository.GetPaintingsByExhibition(exhibitionId,
+                paintigsParameters ,trackChanges: false);
 
-            var paintingDto = _mapper.Map<IEnumerable<PaintingDto>>(paintings);
-
-            return Ok(paintingDto);
-        }
-
-        [HttpGet("name/{Name}")]
-        public IActionResult GetPaintingsByName(string name)
-        {
-            var paintings = _repository.PaintingRepository.GetPaintingsByName(name, trackChanges: false);   
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(paintings.MetaData));
 
             var paintingDto = _mapper.Map<IEnumerable<PaintingDto>>(paintings);
 
@@ -90,18 +101,13 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreatePainting([FromBody] PaintingForCreationDto painting) 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreatePainting([FromBody] PaintingForCreationDto painting) 
         {
-            if (painting == null)
-            {
-                _logger.Error("PaintingForCreationDto object sent by client is null");
-                return BadRequest("PaintingForCreationDto object is null");
-            }
-
             var paintingEntity = _mapper.Map<Painting>(painting);
 
             _repository.PaintingRepository.CreatePainting(paintingEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var paintingForReturn = _mapper.Map<PaintingDto>(paintingEntity);
 
@@ -109,9 +115,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePainting(Guid id)
+        public async Task<IActionResult> DeletePainting(Guid id)
         {
-            var painting = _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
+            var painting = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
             if(painting == null)
             {
                 _logger.Info($"Paiting with id: {id} does not exist");
@@ -119,7 +125,24 @@ namespace ArtMuseums.Controllers
             }
 
             _repository.PaintingRepository.DeletePainting(painting);
-            _repository.Save();
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof (ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdatePainting(Guid id, [FromBody] PaintingForUpdateDto painting)
+        {
+            var paintingEntity = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: true);
+            if(paintingEntity == null)
+            {
+                _logger.Info($"painting with id: {id} doesn't exist");
+                return NotFound();
+            }
+
+            _mapper.Map(painting, paintingEntity);
+            await _repository.SaveAsync();
 
             return NoContent();
         }

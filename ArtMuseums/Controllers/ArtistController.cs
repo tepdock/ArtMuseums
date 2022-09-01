@@ -1,11 +1,15 @@
 ﻿using ArtMuseum;
+using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
@@ -25,9 +29,12 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetArtists()
+        public async Task<IActionResult> GetArtists([FromQuery] ArtistsParameters artistsParameters)
         {
-            var artists = _repository.ArtistRepository.GetAllArtists(trackChanges: false);
+            var artists = await _repository.ArtistRepository.GetAllArtists(artistsParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination",
+                JsonConvert.SerializeObject(artists.MetaData));
 
             var artistsDto = _mapper.Map<IEnumerable<ArtistDto>>(artists);
 
@@ -35,38 +42,12 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "ArtistById")]
-        public IActionResult GetArtist(Guid id)
+        public async Task<IActionResult> GetArtist(Guid id)
         {
-            var artist = _repository.ArtistRepository.GetArtist(id, trackChanges: false);
+            var artist = await _repository.ArtistRepository.GetArtist(id, trackChanges: false);
             if(artist == null)
             {
                 _logger.Info($"Artist with id: {id} doesn't exist");
-                return NotFound();
-            }
-            else
-            {
-                var artistDto = _mapper.Map<ArtistDto>(artist);
-                return Ok(artistDto);
-            }
-        }
-
-        [HttpGet("country/{country}")]
-        public IActionResult GetArtistBycountry(string country)
-        {
-            var artists = _repository.ArtistRepository.GetAllArtistsByCountry(country, trackChanges: false);
-
-            var artistsDto = _mapper.Map<IEnumerable<ArtistDto>>(artists);
-            return Ok(artistsDto);
-       
-        }
-
-        [HttpGet("name/{name}")]
-        public IActionResult GetArtistByName(string name)
-        {
-            var artist = _repository.ArtistRepository.GetArtistByName(name, trackChanges: false);
-            if(artist == null)
-            {
-                _logger.Info($"Artist with name: {name} doesn't exist");
                 return NotFound();
             }
             else
@@ -77,18 +58,13 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateArtist([FromBody]ArtistForCreationDto artist)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateArtist([FromBody]ArtistForCreationDto artist)
         {
-            if(artist == null)
-            {
-                _logger.Error("ArtistForCreationDto object sent from client is null");
-                return BadRequest("ArtistForCreationDto object is null");
-            }
-
             var artistEntity = _mapper.Map<Artist>(artist);
 
             _repository.ArtistRepository.CreateArtist(artistEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var artistToReturn = _mapper.Map<ArtistDto>(artistEntity);
 
@@ -96,9 +72,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteArtist(Guid id)
+        public async Task<IActionResult> DeleteArtist(Guid id)
         {
-            var artist = _repository.ArtistRepository.GetArtist(id, trackChanges: false);
+            var artist = await _repository.ArtistRepository.GetArtist(id, trackChanges: false);
             if(artist == null)
             {
                 _logger.Info($"Artist with id: {id} doesn't exist");
@@ -106,7 +82,24 @@ namespace ArtMuseums.Controllers
             }
 
             _repository.ArtistRepository.DeleteArtist(artist);
-            _repository.Save();
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateArtist(Guid id, [FromBody] ArtistForUpdateDto artist)
+        {
+            var artistEntity = await _repository.ArtistRepository.GetArtist(id, trackChanges: true);
+            if(artistEntity == null)
+            {
+                _logger.Info($"artist with id: {id} doesn't exist");
+                return NotFound();
+            }
+
+            _mapper.Map(artist, artistEntity);
+            await _repository.SaveAsync();
 
             return NoContent();
         }

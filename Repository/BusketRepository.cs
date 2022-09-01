@@ -1,6 +1,7 @@
 ﻿using ArtMuseum;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +17,18 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Busket> GetAllPurchaches(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Busket>> GetAllPurchaches(bool trackChanges) =>
+            await FindAll(trackChanges)
             .OrderBy(b => b.UserId)
-            .ToList();
+            .ToListAsync();
 
-        public IEnumerable<Busket> GetPurchachesByUser(Guid userId, bool trackChanges) =>
-            FindByCondition(b => b.UserId.Equals(userId), trackChanges)
+        public async Task<IEnumerable<Busket>> GetPurchachesByUser(Guid userId, bool trackChanges) =>
+            await FindByCondition(b => b.UserId.Equals(userId), trackChanges)
             .OrderBy(b => b.TourId)
-            .ToList();
+            .ToListAsync();
 
-        public Busket GetPurchase(Guid purchaseId, bool trackChanges) =>
-            FindByCondition(b => b.Id.Equals(purchaseId), trackChanges)
-            .First();
+        public async Task<Busket?> GetPurchase(Guid purchaseId, bool trackChanges) =>
+            await FindByCondition(b => b.Id.Equals(purchaseId), trackChanges)
+            .SingleOrDefaultAsync();
     }
 }

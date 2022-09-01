@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class TicketForCreationDto : TicketManipulationDto
+    public class TicketForUpdatingDto : TicketManipulationDto
     {
-
     }
 }

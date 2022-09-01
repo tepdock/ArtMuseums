@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
+using Entities.RequestFeatures;
 
 namespace Repository
 {
@@ -21,17 +24,14 @@ namespace Repository
 
         public void DeleteMuseum(Entities.Models.ArtMuseum museum) => Delete(museum);
 
-        public IEnumerable<Entities.Models.ArtMuseum> GetAllMuseums(bool trackChanges) =>
-            FindAll(trackChanges)
-            .ToList();
+        public async Task<IEnumerable<Entities.Models.ArtMuseum>> GetAllMuseums(MuseumParameters museumParameters,
+            bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Search(museumParameters.SearchTerm)
+            .ToListAsync();
 
-        public Entities.Models.ArtMuseum GetMuseum(Guid museumId, bool trackChanges) =>
-            FindByCondition(m => m.Id.Equals(museumId), trackChanges)
-            .SingleOrDefault();
-
-        public Entities.Models.ArtMuseum GetMuseumByName(string name, bool trackChanges) =>
-            FindByCondition(m => m.Name.Equals(name), trackChanges)
-            .SingleOrDefault();
-
+        public async Task<Entities.Models.ArtMuseum?> GetMuseum(Guid museumId, bool trackChanges) =>
+            await FindByCondition(m => m.Id.Equals(museumId), trackChanges)
+            .SingleOrDefaultAsync();
     }
 }

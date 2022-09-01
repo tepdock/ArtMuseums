@@ -9,9 +9,9 @@ namespace ArtMuseum
 {
     public interface ITicketRepository
     {
-        IEnumerable<Ticket> GetAllTickets(Guid TourId, bool trackChanges);
-        IEnumerable<Ticket> GetTicketsByUser(Guid UserId, bool trackChanges);
-        Ticket GetTicketById(Guid ticketId, bool trackChanges);
+        Task<IEnumerable<Ticket>> GetAllTickets(Guid TourId, bool trackChanges);
+        Task<IEnumerable<Ticket>> GetTicketsByUser(Guid UserId, bool trackChanges);
+        Task<Ticket> GetTicketById(Guid ticketId, bool trackChanges);
         void CreateTicket(Ticket ticket);
         void DeleteTicket(Ticket ticket);
     }

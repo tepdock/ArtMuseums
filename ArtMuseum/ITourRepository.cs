@@ -1,4 +1,5 @@
 ﻿using Entities.Models;
+using Entities.RequestFeatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ namespace ArtMuseum
 {
     public interface ITourRepository
     {
-        IEnumerable<Tour> GetAllTours(Guid exhibitionId, bool trackChanges);
-        Tour GetTour(Guid tourId, bool trackChanges);
+        Task<PagedList<Tour>> GetAllTours(Guid exhibitionId, ToursParameters toursParameters, bool trackChanges);
+        Task<Tour> GetTour(Guid tourId, bool trackChanges);
+        void CreateTour(Tour tour);
+        void DeleteTour(Tour tour);
     }
 }

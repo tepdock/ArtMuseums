@@ -1,4 +1,5 @@
 using ArtMuseum;
+using ArtMuseums.ActionFilters;
 using ArtMuseums.Extensions;
 using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using JavaScriptEngineSwitcher.V8;
@@ -42,7 +43,16 @@ namespace ArtMuseums
             services.ConfigureRepositoryMAnager();
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers();
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddControllers(config => 
+            { 
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

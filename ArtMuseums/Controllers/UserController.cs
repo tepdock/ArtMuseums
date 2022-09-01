@@ -4,6 +4,7 @@ using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
@@ -23,17 +24,17 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            var users = _repository.UserRepository.GetAllUsers(trackChanges: false);
+            var users = await _repository.UserRepository.GetAllUsers(trackChanges: false);
 
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(Guid userId)
+        public async Task<IActionResult> GetUser(Guid userId)
         {
-            var user = _repository.UserRepository.GetUser(userId, trackChanges: false);
+            var user = await _repository.UserRepository.GetUser(userId, trackChanges: false);
             if (user == null)
             {
                 _logger.Info($"user with id: {userId} doesnt exist");

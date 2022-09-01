@@ -1,10 +1,13 @@
 ﻿using ArtMuseum;
+using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
@@ -25,9 +28,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMuseums()
+        public async Task<IActionResult> GetMuseums([FromQuery] MuseumParameters museumParameters)
         {
-            var museums = _repository.ArtMuseumRepository.GetAllMuseums(trackChanges: false);
+            var museums = await _repository.ArtMuseumRepository.GetAllMuseums(museumParameters, trackChanges: false);
 
             var museumsDto = _mapper.Map<IEnumerable<MuseumDto>>(museums);
 
@@ -35,28 +38,12 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMuseumById")]
-        public IActionResult GetMuseum(Guid id)
+        public async Task<IActionResult> GetMuseum(Guid id)
         {
-            var museum = _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
+            var museum = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
             if(museum == null)
             {
                 _logger.Info($"museum with id: {id} does not exist");
-                return NotFound();
-            }
-            else
-            {
-                var museumDto = _mapper.Map<MuseumDto>(museum);
-                return Ok(museumDto);
-            }
-        }
-
-        [HttpGet("name/{name}")]
-        public IActionResult GetMuseumByName(string name)
-        {
-            var museum = _repository.ArtMuseumRepository.GetMuseumByName(name, trackChanges: false);
-            if(museum == null)
-            {
-                _logger.Info($"museum with name: {name} doesn't exist");
                 return NotFound();
             }
             else
@@ -67,18 +54,13 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateMuseum([FromBody] MuseumForCreationDto museum) 
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateMuseum([FromBody] MuseumForCreationDto museum) 
         { 
-            if(museum == null)
-            {
-                _logger.Error("MuseumForCreationDto object sent by client is null");
-                return BadRequest("MuseumForCreationDto object is null");
-            }
-
             var museumEntity = _mapper.Map<Entities.Models.ArtMuseum>(museum);
 
             _repository.ArtMuseumRepository.CreateMuseum(museumEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var museumForReturn = _mapper.Map<MuseumDto>(museumEntity);
 
@@ -86,9 +68,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteMuseum(Guid id)
+        public async Task<IActionResult> DeleteMuseum(Guid id)
         {
-            var museum = _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
+            var museum = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
             if (museum == null)
             {
                 _logger.Info($"museum with id: {id} does not exist");
@@ -96,7 +78,24 @@ namespace ArtMuseums.Controllers
             }
 
             _repository.ArtMuseumRepository.DeleteMuseum(museum);
-            _repository.Save();
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateMuseum(Guid id, [FromBody] MuseumForUpdateDto museum)
+        {
+            var museumEntity = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: true);
+            if(museumEntity == null)
+            {
+                _logger.Info($"museum with id: {id} doesn't exist");
+                return NotFound();
+            }
+
+            _mapper.Map(museum, museumEntity);
+            await _repository.SaveAsync();
 
             return NoContent();
         }

@@ -6,40 +6,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using Microsoft.EntityFrameworkCore;
+using Entities.RequestFeatures;
+using Repository.Extensions;
 
 namespace Repository
 {
     public class PaintingRepository : RepositoryBase<Painting>, IPaintingRepository
     {
-        public PaintingRepository(RepositoryContext repositoryContext) 
+        public PaintingRepository(RepositoryContext repositoryContext)
             : base(repositoryContext)
         {
         }
 
-        public IEnumerable<Painting> GetPaintingsByAuthor(Guid artistId, bool trackChanges)=>
-            FindByCondition(p => p.ArtistId.Equals(artistId), trackChanges)
-            .OrderBy(p => p.Name)
-            .ToList();
+        public async Task<PagedList<Painting>> GetPaintingsByAuthor(Guid artistId, PaintigsParameters paintigsParameters, bool trackChanges)
+        {
+            var paintigs = await FindByCondition(p => p.Artist.Equals(artistId), trackChanges)
+                .OrderBy(p => p.Name)
+                .ToListAsync();
 
-        public IEnumerable<Painting> GetPaintingsByExhibition(Guid exhibitionId,
-            bool trackChanges) =>
-            FindByCondition(p => p.ExhibitionId.Equals(exhibitionId), trackChanges)
-            .OrderBy(p => p.Name)
-            .ToList();
+            return PagedList<Painting>
+                .ToPagedList(paintigs, paintigsParameters.PageNumber, paintigsParameters.PageSize);
+        }
 
-        public Painting GetPaintingById(Guid paitingId, bool trackChanges) =>
-            FindByCondition(p => p.Id.Equals(paitingId), trackChanges)
-            .Single();
+        public async Task<PagedList<Painting>> GetPaintingsByExhibition(Guid exhibitionId, PaintigsParameters paintigsParameters,
+            bool trackChanges)
+        {
+            var paintigs = await FindByCondition(p => p.ExhibitionId.Equals(exhibitionId), trackChanges)
+                .OrderBy(p => p.Name)
+                .ToListAsync();
 
-        public IEnumerable<Painting> GetPaintingsByName(string name, bool trackChanges) =>
-            FindByCondition(p => p.Name.Equals(name), trackChanges)
-            .OrderBy(p => p.Year)
-            .ToList();
+            return PagedList<Painting>
+                .ToPagedList(paintigs, paintigsParameters.PageNumber, paintigsParameters.PageSize);
+        }
 
-        public IEnumerable<Painting> GetAllPaintings(bool trackChanges) =>
-            FindAll(trackChanges)
-            .OrderBy(p => p.Name)
-            .ToList();
+        public async Task<Painting?> GetPaintingById(Guid paitingId, bool trackChanges) =>
+            await FindByCondition(p => p.Id.Equals(paitingId), trackChanges)
+            .SingleOrDefaultAsync();
+
+        public async Task<PagedList<Painting>> GetAllPaintings(PaintigsParameters paintigsParameters, bool trackChanges)
+        {
+            var paintigs = await FindAll(trackChanges)
+                .FilterPaintigs(paintigsParameters.MinYear, paintigsParameters.MaxYear)
+                .Search(paintigsParameters.SearchTerm)
+                .OrderBy(p => p.Name)
+                .ToListAsync();
+
+            return PagedList<Painting>
+                .ToPagedList(paintigs, paintigsParameters.PageNumber, paintigsParameters.PageSize);
+        }
 
         public void CreatePainting(Painting painting) => Create(painting);
 

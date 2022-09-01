@@ -9,9 +9,9 @@ namespace ArtMuseum
 {
     public interface IBusketRepository
     {
-        IEnumerable<Busket> GetAllPurchaches(bool trackChanges);
-        Busket GetPurchase(Guid purchaseId, bool trackChanges);
-        IEnumerable<Busket> GetPurchachesByUser(Guid userId, bool trackChanges);
+        Task<IEnumerable<Busket>> GetAllPurchaches(bool trackChanges);
+        Task<Busket> GetPurchase(Guid purchaseId, bool trackChanges);
+        Task<IEnumerable<Busket>> GetPurchachesByUser(Guid userId, bool trackChanges);
 
     }
 }

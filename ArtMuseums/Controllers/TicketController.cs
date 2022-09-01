@@ -1,4 +1,5 @@
 ﻿using ArtMuseum;
+using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
@@ -26,16 +28,16 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTickets(Guid tourId)
+        public async Task<IActionResult> GetTickets(Guid tourId)
         {
-            var tour = _repository.TourRepository.GetTour(tourId, trackChanges: false);
+            var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);
             if (tour == null)
             {
                 _logger.Info($"tour with id: {tourId} doesn't exist");
                 return NotFound();
             }
 
-            var tickets = _repository.TicketRepository.GetAllTickets(tourId, trackChanges: false);
+            var tickets = await _repository.TicketRepository.GetAllTickets(tourId, trackChanges: false);
 
             var ticketsDto = _mapper.Map<IEnumerable<TicketDto>>(tickets);
 
@@ -43,16 +45,16 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTicketById")]
-        public IActionResult GetTicket(Guid ticketId, Guid tourId)
+        public async Task<IActionResult> GetTicket(Guid ticketId, Guid tourId)
         {
-            var tour = _repository.TourRepository.GetTour(tourId, trackChanges: false);
+            var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);
             if(tour == null)
             {
                 _logger.Info($"tour with id: {tourId} doesnt exist");
                 return NotFound();
             }
 
-            var ticket = _repository.TicketRepository.GetTicketById(ticketId, trackChanges: false);
+            var ticket = await _repository.TicketRepository.GetTicketById(ticketId, trackChanges: false);
             if(ticket == null)
             {
                 _logger.Info($"ticket with id: {ticketId} doesn't exist");
@@ -66,16 +68,16 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public IActionResult GetUsersTickets(Guid userId)
+        public async Task<IActionResult> GetUsersTickets(Guid userId)
         {
-            var user = _repository.UserRepository.GetUser(userId, trackChanges: false);
+            var user = await _repository.UserRepository.GetUser(userId, trackChanges: false);
             if(user == null)
             {
                 _logger.Info($"user with id: {userId} doesn't exist");
                 return NotFound();
             }
 
-            var userTickets = _repository.TicketRepository.GetTicketsByUser(userId, trackChanges: false);
+            var userTickets = await _repository.TicketRepository.GetTicketsByUser(userId, trackChanges: false);
 
             var userTicketsDto = _mapper.Map<IEnumerable<TicketDto>>(userTickets);
 
@@ -83,18 +85,13 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTicket([FromBody] TicketForCreationDto ticket)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> CreateTicket([FromBody] TicketForCreationDto ticket)
         {
-            if(ticket == null)
-            {
-                _logger.Error("TicketForCreationDto object sent by client is null");
-                return BadRequest("TicketForCreationDto object is null");
-            }
-
             var ticketEntity = _mapper.Map<Ticket>(ticket);
 
             _repository.TicketRepository.CreateTicket(ticketEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var ticketForReturn = _mapper.Map<TicketDto>(ticketEntity);
 
@@ -102,9 +99,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteTicket(Guid id)
+        public async Task<IActionResult> DeleteTicket(Guid id)
         {
-            var ticket = _repository.TicketRepository.GetTicketById(id, trackChanges: false);
+            var ticket = await _repository.TicketRepository.GetTicketById(id, trackChanges: false);
             if(ticket == null)
             {
                 _logger.Info($"ticket with id: {id} doesn't exist");
@@ -112,7 +109,32 @@ namespace ArtMuseums.Controllers
             }
 
             _repository.TicketRepository.DeleteTicket(ticket);
-            _repository.Save();
+            await _repository.SaveAsync();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> UpdateTicket(Guid tourId, Guid id, 
+            [FromBody] TicketForUpdatingDto ticket)
+        {
+            var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);
+            if(tour == null)
+            {
+                _logger.Info($"tour with id: {tourId} doesn't exist");
+                return NotFound();
+            }
+
+            var ticketEntity = await _repository.TicketRepository.GetTicketById(id, trackChanges: true);
+            if(ticketEntity == null)
+            {
+                _logger.Info($"ticket with id: {id} doesn't exist");
+                return NotFound();
+            }
+
+            _mapper.Map(ticket, ticketEntity);
+            await _repository.SaveAsync();
 
             return NoContent();
         }

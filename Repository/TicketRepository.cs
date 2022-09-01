@@ -1,6 +1,7 @@
 ﻿using ArtMuseum;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +17,19 @@ namespace Repository
         {
         }
 
-        public Ticket GetTicketById(Guid ticketId, bool trackChanges) =>
-            FindByCondition(t => t.Id.Equals(ticketId), trackChanges)
-            .First();
+        public async Task<Ticket?> GetTicketById(Guid ticketId, bool trackChanges) =>
+            await FindByCondition(t => t.Id.Equals(ticketId), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public IEnumerable<Ticket> GetAllTickets(Guid TourId, bool trackChanges) =>
-            FindByCondition(t => t.TourId.Equals(TourId), trackChanges)
+        public async Task<IEnumerable<Ticket>> GetAllTickets(Guid TourId, bool trackChanges) =>
+            await FindByCondition(t => t.TourId.Equals(TourId), trackChanges)
             .OrderBy(t => t.TicketCost)
-            .ToList();
+            .ToListAsync();
 
-        public IEnumerable<Ticket> GetTicketsByUser(Guid UserId, bool trackChanges)=>
-            FindByCondition(t => t.UserId.Equals(UserId), trackChanges)
+        public async Task<IEnumerable<Ticket>> GetTicketsByUser(Guid UserId, bool trackChanges)=>
+            await FindByCondition(t => t.UserId.Equals(UserId), trackChanges)
             .OrderBy(t => t.TicketCost)
-            .ToList();
+            .ToListAsync();
 
         public void CreateTicket(Ticket ticket) => Create(ticket);
 

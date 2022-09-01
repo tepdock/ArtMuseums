@@ -1,6 +1,7 @@
 ﻿using ArtMuseum;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,21 +17,21 @@ namespace Repository
         {
         }
 
-        public IEnumerable<User> GetAllUsers(bool trackChanges)=>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<User>> GetAllUsers(bool trackChanges)=>
+            await FindAll(trackChanges)
             .OrderBy(u => u.Login)
-            .ToList();
+            .ToListAsync();
 
-        public User GetUser(Guid id, bool trackChanges) =>
-            FindByCondition(u => u.Id.Equals(id), trackChanges)
-            .First();
+        public async Task<User?> GetUser(Guid id, bool trackChanges) =>
+            await FindByCondition(u => u.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public User GetUserByLogin(string login, bool trackChanges) =>
-            FindByCondition(u => u.Login.Equals(login), trackChanges)
-            .First();
+        public async Task<User?> GetUserByLogin(string login, bool trackChanges) =>
+            await FindByCondition(u => u.Login.Equals(login), trackChanges)
+            .SingleOrDefaultAsync();
 
-        public User GetUserByPassword(string password, bool trackChanges) =>
-            FindByCondition(u => u.Password.Equals(password), trackChanges)
-            .First();
+        public async Task<User?> GetUserByPassword(string password, bool trackChanges) =>
+            await FindByCondition(u => u.Password.Equals(password), trackChanges)
+            .SingleOrDefaultAsync();
     }
 }
