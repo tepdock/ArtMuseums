@@ -18,10 +18,15 @@ namespace Entities.RequestFeatures
             set { _pageSize = (value > maxPageSize) ? maxPageSize : value; }
         }
 
+        public string OrderBy { get; set; }
     }
 
     public class PaintigsParameters : RequestParameters 
     {
+        public PaintigsParameters()
+        {
+            OrderBy = "name";
+        }
         public uint MinYear { get; set; }
         public uint MaxYear { get; set; } = (uint)DateTime.Now.Year;
         public bool ValidYearRange => MaxYear > MinYear;
@@ -30,14 +35,26 @@ namespace Entities.RequestFeatures
     }
     public class ArtistsParameters : RequestParameters 
     {
+        public ArtistsParameters()
+        {
+            OrderBy = "name";
+        }
         public string SearchTerm { get; set; }
     }
     public class ExhibitionsParameters : RequestParameters 
     {
+        public ExhibitionsParameters()
+        {
+            OrderBy = "name";
+        }
         public string SearchTerm { get; set; }
     }
     public class ToursParameters : RequestParameters 
     {
+        public ToursParameters()
+        {
+            OrderBy = "places";
+        }
         public uint MinPlaces { get; set; }
         public uint MaxPlaces { get; set; } = 25;
         public bool ValidPlacesRange => MaxPlaces > MinPlaces;
@@ -47,6 +64,10 @@ namespace Entities.RequestFeatures
 
     public class MuseumParameters : RequestParameters 
     {
+        public MuseumParameters()
+        {
+            OrderBy = "name";
+        }
         public string SearchTerm { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Repository
         public async Task<PagedList<Painting>> GetPaintingsByAuthor(Guid artistId, PaintigsParameters paintigsParameters, bool trackChanges)
         {
             var paintigs = await FindByCondition(p => p.Artist.Equals(artistId), trackChanges)
-                .OrderBy(p => p.Name)
+                .Sort(paintigsParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Painting>
@@ -33,7 +33,7 @@ namespace Repository
             bool trackChanges)
         {
             var paintigs = await FindByCondition(p => p.ExhibitionId.Equals(exhibitionId), trackChanges)
-                .OrderBy(p => p.Name)
+                .Sort(paintigsParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Painting>
@@ -49,7 +49,7 @@ namespace Repository
             var paintigs = await FindAll(trackChanges)
                 .FilterPaintigs(paintigsParameters.MinYear, paintigsParameters.MaxYear)
                 .Search(paintigsParameters.SearchTerm)
-                .OrderBy(p => p.Name)
+                .Sort(paintigsParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Painting>

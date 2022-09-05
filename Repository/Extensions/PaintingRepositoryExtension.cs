@@ -1,5 +1,7 @@
 ﻿using Entities.Models;
+using Repository.Extensions.Utility;
 using System;
+using System.Linq.Dynamic.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,20 @@ namespace Repository.Extensions
             var lowerCaseTerm = searchTerm.Trim().ToLower();
 
             return paintings.Where(p => p.Name.ToLower().Contains(lowerCaseTerm));
+        }
+
+        public static IQueryable<Painting> Sort(this IQueryable<Painting> paintings,
+            string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
+                return paintings.OrderBy(a => a.Name);
+
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<Painting>(orderByQueryString);
+
+            if (string.IsNullOrWhiteSpace(orderQuery))
+                return paintings.OrderBy(a => a.Name);
+
+            return paintings.OrderBy(orderQuery);
         }
     }
 }

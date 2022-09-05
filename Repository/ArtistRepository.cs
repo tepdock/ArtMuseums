@@ -24,7 +24,7 @@ namespace Repository
         {
             var artists = await FindAll(trackChanges)
                 .Search(artistsParameters.SearchTerm)
-                .OrderBy(a => a.Name)
+                .Sort(artistsParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Artist>

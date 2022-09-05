@@ -28,7 +28,7 @@ namespace Repository
         {
             var exhibitions = await FindAll(trackChanges)
                 .Search(exhibitionsParameters.SearchTerm)
-                .OrderBy(e => e.Name)
+                .Sort(exhibitionsParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Exhibition>

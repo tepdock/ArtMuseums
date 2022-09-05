@@ -3,6 +3,7 @@ using Entities;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.EntityFrameworkCore;
+using Repository.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace Repository
         {
             var tours = await FindByCondition(t => t.TourPlaces >= toursParameters.MinPlaces &&
             t.TourPlaces <= toursParameters.MaxPlaces, trackChanges)
+                .Sort(toursParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Tour>

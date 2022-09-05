@@ -28,6 +28,7 @@ namespace Repository
             bool trackChanges) =>
             await FindAll(trackChanges)
             .Search(museumParameters.SearchTerm)
+            .Sort(museumParameters.OrderBy)
             .ToListAsync();
 
         public async Task<Entities.Models.ArtMuseum?> GetMuseum(Guid museumId, bool trackChanges) =>
