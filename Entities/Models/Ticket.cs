@@ -17,9 +17,9 @@ namespace Entities.Models
         [StringLength(3)]
         public int TicketCost { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        [ForeignKey(nameof(Basket))]
+        public Guid BasketId { get; set; }
+        public Basket Basket { get; set; }
 
         [ForeignKey(nameof(Tour))]
         public Guid TourId { get; set; }

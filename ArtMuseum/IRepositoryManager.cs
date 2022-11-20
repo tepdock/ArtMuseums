@@ -8,14 +8,13 @@ namespace ArtMuseum
 {
     public interface IRepositoryManager
     {
-        IUserRepository UserRepository { get; }
         ITourRepository TourRepository { get; }
         ITicketRepository TicketRepository { get; }
         IArtistRepository ArtistRepository { get; }
         IArtMuseumRepository ArtMuseumRepository { get; }
         IExhibitionRepository ExhibitionRepository { get; }
         IPaintingRepository PaintingRepository { get; }
-        IBusketRepository BusketRepository { get; }
+        IBasketRepository BusketRepository { get; }
         Task SaveAsync();
     }
 }

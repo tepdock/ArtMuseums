@@ -32,7 +32,7 @@ namespace ArtMuseums
             CreateMap<TourForCreationDto, Tour>();
             CreateMap<TourForUpdatingDto, Tour>();
 
-            CreateMap<User, UserDto>();
+            CreateMap<UserRegistrationDto, User>();
         }
     }
 }

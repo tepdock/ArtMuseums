@@ -1,5 +1,6 @@
 ﻿using Entities.Configuration;
 using Entities.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
-    public class RepositoryContext : DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
         public RepositoryContext():base() { }
         public RepositoryContext(DbContextOptions options) : base(options)
@@ -19,11 +20,14 @@ namespace Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new ArtMuseumConfiguration());
             modelBuilder.ApplyConfiguration(new ArtistConfiguration());
             modelBuilder.ApplyConfiguration(new PaintingConfiguration());
             modelBuilder.ApplyConfiguration(new ExhibitionConfiguration());
             modelBuilder.ApplyConfiguration(new TourConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
         public DbSet<Artist> Artists { get; set; }
@@ -32,7 +36,6 @@ namespace Entities
         public DbSet<Painting> Paintings { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Tour> Tours { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Busket> Buskets { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
     }
 }

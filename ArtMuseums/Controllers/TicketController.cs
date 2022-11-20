@@ -67,22 +67,6 @@ namespace ArtMuseums.Controllers
             }
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetUsersTickets(Guid userId)
-        {
-            var user = await _repository.UserRepository.GetUser(userId, trackChanges: false);
-            if(user == null)
-            {
-                _logger.Info($"user with id: {userId} doesn't exist");
-                return NotFound();
-            }
-
-            var userTickets = await _repository.TicketRepository.GetTicketsByUser(userId, trackChanges: false);
-
-            var userTicketsDto = _mapper.Map<IEnumerable<TicketDto>>(userTickets);
-
-            return Ok(userTicketsDto);
-        }
 
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]

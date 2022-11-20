@@ -26,11 +26,6 @@ namespace Repository
             .OrderBy(t => t.TicketCost)
             .ToListAsync();
 
-        public async Task<IEnumerable<Ticket>> GetTicketsByUser(Guid UserId, bool trackChanges)=>
-            await FindByCondition(t => t.UserId.Equals(UserId), trackChanges)
-            .OrderBy(t => t.TicketCost)
-            .ToListAsync();
-
         public void CreateTicket(Ticket ticket) => Create(ticket);
 
         public void DeleteTicket(Ticket ticket) => Delete(ticket);

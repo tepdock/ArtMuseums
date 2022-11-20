@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArtMuseums.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20221120202556_AddedRoles")]
+    partial class AddedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,12 +323,6 @@ namespace ArtMuseums.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -404,15 +400,15 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1847cb4c-896f-4cfb-9582-6e3769ce43be",
-                            ConcurrencyStamp = "8b78a81a-19db-40ac-b7b3-289e3b09a0f0",
+                            Id = "e2519000-dae3-45d5-8b5c-bedcab7eeb11",
+                            ConcurrencyStamp = "14bd9dd3-9aa0-4834-abe0-4d4cc4231386",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "6e3b84a2-fdad-4d84-a73e-29f50ee3bfdb",
-                            ConcurrencyStamp = "b6a5110f-163e-4485-ab2e-a8f2ce12ba46",
+                            Id = "cd6c42d0-611c-42ce-8b1e-1a706ef9024d",
+                            ConcurrencyStamp = "55267a94-8219-4f80-bb65-5370facd375f",
                             Name = "User",
                             NormalizedName = "USER"
                         });

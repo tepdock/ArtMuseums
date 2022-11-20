@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Models
 {
-    public class Busket
+    public class Basket
     {
         [Column("PurchaseId")]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
-        public Guid TourId { get; set; }
+        public ICollection<Ticket> Tickets { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

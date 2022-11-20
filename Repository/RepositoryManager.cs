@@ -16,24 +16,12 @@ namespace Repository
         private IArtMuseumRepository _artMuseumRepository;
         private ITicketRepository _ticketRepository;
         private ITourRepository _tourRepository;
-        private IUserRepository _userRepository;
         private IExhibitionRepository _exhibitionRepository;
-        private IBusketRepository _basketRepository;
+        private IBasketRepository _basketRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
-        }
-
-        public IUserRepository UserRepository
-        {
-            get
-            {
-                if (_userRepository == null)
-                    _userRepository = new UserRepository(_repositoryContext);
-
-                return _userRepository;
-            }
         }
 
         public ITourRepository TourRepository
@@ -102,12 +90,12 @@ namespace Repository
             }
         }
 
-        public IBusketRepository BusketRepository
+        public IBasketRepository BusketRepository
         {
             get
             {
                 if (_basketRepository == null)
-                    _basketRepository = new BusketRepository(_repositoryContext);
+                    _basketRepository = new BasketRepository(_repositoryContext);
 
                 return _basketRepository;
             }
