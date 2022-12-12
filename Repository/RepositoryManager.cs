@@ -17,7 +17,7 @@ namespace Repository
         private ITicketRepository _ticketRepository;
         private ITourRepository _tourRepository;
         private IExhibitionRepository _exhibitionRepository;
-        private IBasketRepository _basketRepository;
+        private IPurchaseRepository _basketRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -90,12 +90,12 @@ namespace Repository
             }
         }
 
-        public IBasketRepository BusketRepository
+        public IPurchaseRepository BusketRepository
         {
             get
             {
                 if (_basketRepository == null)
-                    _basketRepository = new BasketRepository(_repositoryContext);
+                    _basketRepository = new PurchaseRepository(_repositoryContext);
 
                 return _basketRepository;
             }

@@ -11,6 +11,8 @@ using Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
+using System.Collections.Generic;
 
 namespace ArtMuseums.Extensions
 {
@@ -83,6 +85,41 @@ namespace ArtMuseums.Extensions
                     ValidAudience = jwtSettings.GetSection("validAudience").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
+            });
+        }
+
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "MuseumsAPI", Version = "v1" });
+
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Place to add JWT with Bearer. Example: Bearer *value*",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }, Name = "Bearer",
+                        },
+                        new List<string>()
+                    }
+                });
+
+
             });
         }
     }

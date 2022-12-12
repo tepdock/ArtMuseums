@@ -27,6 +27,11 @@ namespace ArtMuseums.Controllers
             _authManager = authManager;
         }
 
+        /// <summary>
+        ///     Register
+        /// </summary>
+        /// <param name="userForRegistration"></param>
+        /// <returns></returns>
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegistrationDto
@@ -50,7 +55,12 @@ namespace ArtMuseums.Controllers
             return StatusCode(201);
         }
 
-        [HttpPost]
+        /// <summary>
+        ///     login
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto 
             user)

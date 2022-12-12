@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArtMuseums.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20221203193332_RenamingTable")]
+    partial class RenamingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,9 +155,6 @@ namespace ArtMuseums.Migrations
                     b.Property<Guid>("ArtistId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -188,7 +187,6 @@ namespace ArtMuseums.Migrations
                         {
                             Id = new Guid("07ba5109-8aec-48ee-b7d9-21e2ce4f3312"),
                             ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
-                            Category = "Abstract",
                             Description = "Прогулка - Марк Захарович Шагал. 1917-1918. Холст, масло 169,6x163,4 см",
                             ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
                             Name = "a walk",
@@ -199,7 +197,6 @@ namespace ArtMuseums.Migrations
                         {
                             Id = new Guid("9d944131-b6ee-4b76-825b-fa6163a27787"),
                             ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
-                            Category = "Modern",
                             ExhibitionId = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
                             Name = "Three Candles",
                             Picture = "D:/asp.net core/pictures/triCvechiShagal.jpg",
@@ -209,7 +206,6 @@ namespace ArtMuseums.Migrations
                         {
                             Id = new Guid("58bde6fc-74f6-41ba-8d60-39424211cfc6"),
                             ArtistId = new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"),
-                            Category = "Expresionism",
                             ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
                             Name = "Starry Night",
                             Picture = "D:/asp.net core/pictures/VanGogh-starry_night_ballance1.jpg",
@@ -410,15 +406,15 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d992e200-ddd1-4cdd-b74e-697c71605665",
-                            ConcurrencyStamp = "a57561ad-c9bd-47d2-aac7-55406a36b762",
+                            Id = "bad2074f-291b-4ee5-bd10-9292b2365a99",
+                            ConcurrencyStamp = "399ad5cb-d9cb-4232-a50d-585531d2f870",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "f4e5dc43-1ea6-4eb3-bb97-ca13535565ef",
-                            ConcurrencyStamp = "ec68f419-fb4d-4468-bcde-4ea7c76974f8",
+                            Id = "071333c6-5c14-49dc-a3c8-4dece7094512",
+                            ConcurrencyStamp = "aa5bc247-8adf-4af1-9f2b-ed505ca10e23",
                             Name = "User",
                             NormalizedName = "USER"
                         });

@@ -4,11 +4,13 @@ using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
@@ -75,7 +77,7 @@ namespace ArtMuseums.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateTour(Guid museumId, Guid exhibitionId,
             [FromBody]TourForCreationDto tour)
@@ -103,7 +105,7 @@ namespace ArtMuseums.Controllers
             return CreatedAtRoute("GetTourById", new { id = tourForReturn.Id }, tourForReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteTour(Guid id)
         {
             var tour = await _repository.TourRepository.GetTour(id, trackChanges: false);
@@ -119,7 +121,7 @@ namespace ArtMuseums.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]        
         public async Task<IActionResult> UpdateTour(Guid museumId, Guid exhibitionId, 
             Guid id, [FromBody] TourForUpdatingDto tour)

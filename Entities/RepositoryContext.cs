@@ -12,7 +12,7 @@ namespace Entities
 {
     public class RepositoryContext : IdentityDbContext<User>
     {
-        public RepositoryContext():base() { }
+        public RepositoryContext() : base() { }
         public RepositoryContext(DbContextOptions options) : base(options)
         {
 
@@ -36,6 +36,6 @@ namespace Entities
         public DbSet<Painting> Paintings { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Tour> Tours { get; set; }
-        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Purchase> Purchases{ get; set; }
     }
 }

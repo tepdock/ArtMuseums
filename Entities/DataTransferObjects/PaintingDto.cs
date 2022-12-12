@@ -13,5 +13,6 @@ namespace Entities.DataTransferObjects
         public string Picture { get; set; }
         public string Description { get; set; }
         public int Year { get; set; }
+        public string Category { get; set; }
     }
 }

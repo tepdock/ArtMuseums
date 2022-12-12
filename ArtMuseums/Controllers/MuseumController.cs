@@ -3,6 +3,7 @@ using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -53,7 +54,7 @@ namespace ArtMuseums.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateMuseum([FromBody] MuseumForCreationDto museum) 
         { 
@@ -67,7 +68,7 @@ namespace ArtMuseums.Controllers
             return CreatedAtRoute("GetMuseumById", new {id = museumForReturn.Id}, museumForReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteMuseum(Guid id)
         {
             var museum = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
@@ -83,7 +84,7 @@ namespace ArtMuseums.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateMuseum(Guid id, [FromBody] MuseumForUpdateDto museum)
         {

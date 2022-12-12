@@ -1,13 +1,8 @@
-﻿using System;
-using ArtMuseum;
-using Entities.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArtMuseum;
 using Entities;
-using Microsoft.EntityFrameworkCore;
+using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 
 namespace Repository
@@ -47,7 +42,7 @@ namespace Repository
         public async Task<PagedList<Painting>> GetAllPaintings(PaintigsParameters paintigsParameters, bool trackChanges)
         {
             var paintigs = await FindAll(trackChanges)
-                .FilterPaintigs(paintigsParameters.MinYear, paintigsParameters.MaxYear)
+                .FilterPaintigs(paintigsParameters.Category, paintigsParameters.MinYear, paintigsParameters.MaxYear)
                 .Search(paintigsParameters.SearchTerm)
                 .Sort(paintigsParameters.OrderBy)
                 .ToListAsync();

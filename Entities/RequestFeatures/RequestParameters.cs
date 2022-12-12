@@ -31,6 +31,8 @@ namespace Entities.RequestFeatures
         public uint MaxYear { get; set; } = (uint)DateTime.Now.Year;
         public bool ValidYearRange => MaxYear > MinYear;
 
+        public string Category { get; set; } 
+
         public string SearchTerm { get; set; }
     }
     public class ArtistsParameters : RequestParameters 
@@ -70,4 +72,6 @@ namespace Entities.RequestFeatures
         }
         public string SearchTerm { get; set; }
     }
+
+    public class PurchaseParameters : RequestParameters { }
 }

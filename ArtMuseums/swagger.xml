@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ArtMuseums</name>
+    </assembly>
+    <members>
+        <member name="M:ArtMuseums.Controllers.AuthenticationController.RegisterUser(Entities.DataTransferObjects.UserRegistrationDto)">
+            <summary>
+                Register
+            </summary>
+            <param name="userForRegistration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ArtMuseums.Controllers.AuthenticationController.Authenticate(Entities.DataTransferObjects.UserForAuthenticationDto)">
+            <summary>
+                login
+            </summary>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

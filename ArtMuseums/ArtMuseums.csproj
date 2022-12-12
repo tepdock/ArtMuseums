@@ -2,10 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>swagger.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.20.0" />
+    <PackageReference Include="dotenv.net" Version="3.1.2" />
     <PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.19.0" />
     <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.19.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
@@ -16,6 +28,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="React.AspNet" Version="5.2.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ArtMuseum
 {
-    public interface IBasketRepository
+    public interface IPurchaseRepository
     {
-        Task<Basket> GetPurchase(Guid purchaseId, bool trackChanges);
+        Task<Purchase> GetPurchase(Guid purchaseId, bool trackChanges);
 
     }
 }

@@ -4,11 +4,13 @@ using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,7 +76,7 @@ namespace ArtMuseums.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateExhibitionForMuseum(Guid museumId, [FromBody]
         ExhibitionForCreationDto exhibition)
@@ -97,7 +99,7 @@ namespace ArtMuseums.Controllers
                 exhibitionForReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteExhibition(Guid museumId, Guid id)
         {
             var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
@@ -120,7 +122,7 @@ namespace ArtMuseums.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateExhibition(Guid museumId, Guid id,
             [FromBody] ExhibitionForUpdateDto exhibition)

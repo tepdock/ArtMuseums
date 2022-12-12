@@ -21,6 +21,7 @@ namespace Entities.Configuration
                         Picture = "D:/asp.net core/pictures/progulka-shagal+.jpg",
                         Description = "Прогулка - Марк Захарович Шагал. 1917-1918. Холст, масло 169,6x163,4 см",
                         Year = 1918,
+                        Category = "Abstract",
                         ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
                         ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b")
                     },
@@ -30,6 +31,7 @@ namespace Entities.Configuration
                         Name = "Three Candles",
                         Picture = "D:/asp.net core/pictures/triCvechiShagal.jpg",
                         Year = 1940,
+                        Category = "Modern",
                         ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
                         ExhibitionId = new Guid("e177f248-6517-449c-9200-16b673c5beff")
                     },
@@ -39,6 +41,7 @@ namespace Entities.Configuration
                         Name = "Starry Night",
                         Picture = "D:/asp.net core/pictures/VanGogh-starry_night_ballance1.jpg",
                         Year = 1889,
+                        Category = "Expresionism",
                         ArtistId = new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"),
                         ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b")
                     }

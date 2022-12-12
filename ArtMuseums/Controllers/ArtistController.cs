@@ -4,6 +4,7 @@ using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -57,7 +58,7 @@ namespace ArtMuseums.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateArtist([FromBody]ArtistForCreationDto artist)
         {
@@ -71,7 +72,7 @@ namespace ArtMuseums.Controllers
             return CreatedAtRoute("ArtistById", new {id = artistToReturn.Id}, artistToReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteArtist(Guid id)
         {
             var artist = await _repository.ArtistRepository.GetArtist(id, trackChanges: false);
@@ -87,7 +88,7 @@ namespace ArtMuseums.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateArtist(Guid id, [FromBody] ArtistForUpdateDto artist)
         {

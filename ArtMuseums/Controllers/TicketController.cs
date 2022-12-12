@@ -3,6 +3,7 @@ using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -68,7 +69,7 @@ namespace ArtMuseums.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateTicket([FromBody] TicketForCreationDto ticket)
         {
@@ -82,7 +83,7 @@ namespace ArtMuseums.Controllers
             return CreatedAtRoute("GetTicketById", new { id = ticketForReturn.Id }, ticketForReturn);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteTicket(Guid id)
         {
             var ticket = await _repository.TicketRepository.GetTicketById(id, trackChanges: false);
@@ -98,7 +99,7 @@ namespace ArtMuseums.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateTicket(Guid tourId, Guid id, 
             [FromBody] TicketForUpdatingDto ticket)

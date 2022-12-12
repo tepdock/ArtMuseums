@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities.Models
 {
@@ -24,6 +20,7 @@ namespace Entities.Models
 
         [StringLength(4, ErrorMessage = "The Year field should be 4 characters long")]
         public int Year { get; set; }
+        public string Category { get; set; } 
 
         [ForeignKey(nameof(Artist))]
         public Guid ArtistId { get; set; }

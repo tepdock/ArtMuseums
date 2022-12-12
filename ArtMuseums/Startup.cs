@@ -47,6 +47,11 @@ namespace ArtMuseums
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+            services.ConfigureSwagger();
+            services.AddSwaggerGen(opt =>
+            {
+                opt.IncludeXmlComments("swagger.xml");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +87,12 @@ namespace ArtMuseums
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Museum API v1");
             });
         }
     }
