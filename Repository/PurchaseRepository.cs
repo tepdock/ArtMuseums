@@ -13,7 +13,7 @@ namespace Repository
         {
         }
 
-        public async Task<Purchase?> GetPurchase(Guid purchaseId, bool trackChanges) =>
+        public async Task<Purchase?> GetPurchase(string purchaseId, bool trackChanges) =>
             await FindByCondition(b => b.Id.Equals(purchaseId), trackChanges)
             .SingleOrDefaultAsync();
 

@@ -11,7 +11,8 @@ namespace ArtMuseum
     public interface IArtistRepository
     {
         Task<PagedList<Artist>> GetAllArtists(ArtistsParameters artistsParameters, bool trackChanges);
-        Task<Artist> GetArtist(Guid artisId, bool trackChanges);
+        Task<Artist> GetArtist(string artisId, bool trackChanges);
+        Task<Artist> GetArtistByName(string name, bool trackChanges);
         void CreateArtist (Artist artist);
         void DeleteArtist (Artist artist);
     }

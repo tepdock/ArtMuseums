@@ -11,7 +11,7 @@ namespace Entities.Models
     public class ArtMuseum
     {
         [Column("ArtMuseumId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "Museum's Adress is a required field")]
         [MaxLength(100, ErrorMessage = "Max Length for the Adress is 100 characters")]

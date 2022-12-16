@@ -7,10 +7,10 @@ namespace Entities.Models
     public class Purchase
     {
         [Column("PurchaseId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [ForeignKey(nameof(Ticket))]
-        public Guid TicketId { get; set; }
+        public string TicketId { get; set; }
         public Ticket Ticket { get; set; }
 
         [ForeignKey(nameof(User))]

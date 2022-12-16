@@ -8,8 +8,9 @@ namespace Entities.DataTransferObjects
 {
     public class TourDto
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public int TourPlaces { get; set; }
         public string Description { get; set; }
+        public string ExhibitionId { get; set; }
     }
 }

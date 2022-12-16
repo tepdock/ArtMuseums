@@ -3,8 +3,11 @@ using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
@@ -49,8 +52,9 @@ namespace ArtMuseums.Controllers
 
                 return BadRequest(ModelState);
             }
-
-            await _userManager.AddToRolesAsync(user, userForRegistration.Roles);
+            IEnumerable<string> roles = System.Array.Empty<string>();
+            roles.Append(userForRegistration.Roles);
+            await _userManager.AddToRolesAsync(user, roles);
 
             return StatusCode(201);
         }

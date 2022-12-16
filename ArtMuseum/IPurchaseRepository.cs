@@ -9,7 +9,7 @@ namespace ArtMuseum
 {
     public interface IPurchaseRepository
     {
-        Task<Purchase> GetPurchase(Guid purchaseId, bool trackChanges);
+        Task<Purchase> GetPurchase(string purchaseId, bool trackChanges);
 
     }
 }

@@ -17,11 +17,11 @@ namespace Repository
         {
         }
 
-        public async Task<Ticket?> GetTicketById(Guid ticketId, bool trackChanges) =>
+        public async Task<Ticket?> GetTicketById(string ticketId, bool trackChanges) =>
             await FindByCondition(t => t.Id.Equals(ticketId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<IEnumerable<Ticket>> GetAllTickets(Guid TourId, bool trackChanges) =>
+        public async Task<IEnumerable<Ticket>> GetAllTickets(string TourId, bool trackChanges) =>
             await FindByCondition(t => t.TourId.Equals(TourId), trackChanges)
             .OrderBy(t => t.TicketCost)
             .ToListAsync();

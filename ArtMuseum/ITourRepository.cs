@@ -10,8 +10,8 @@ namespace ArtMuseum
 {
     public interface ITourRepository
     {
-        Task<PagedList<Tour>> GetAllTours(Guid exhibitionId, ToursParameters toursParameters, bool trackChanges);
-        Task<Tour> GetTour(Guid tourId, bool trackChanges);
+        Task<PagedList<Tour>> GetAllTours(string exhibitionId, ToursParameters toursParameters, bool trackChanges);
+        Task<Tour> GetTour(string tourId, bool trackChanges);
         void CreateTour(Tour tour);
         void DeleteTour(Tour tour);
     }

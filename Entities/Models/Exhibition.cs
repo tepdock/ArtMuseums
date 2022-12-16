@@ -11,7 +11,7 @@ namespace Entities.Models
     public class Exhibition
     {
         [Column("ExpositionId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "Exposition name is a required field")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters")]
@@ -25,7 +25,7 @@ namespace Entities.Models
         public ICollection<Tour> Tours { get; set; }
 
         [ForeignKey(nameof(ArtMuseum))]
-        public Guid ArtMuseumId { get; set; }
+        public string ArtMuseumId { get; set; }
         public ArtMuseum ArtMuseum { get; set; }
     }
 }

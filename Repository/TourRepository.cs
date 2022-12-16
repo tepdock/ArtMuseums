@@ -19,15 +19,15 @@ namespace Repository
         {
         }
 
-        public async Task<Tour?> GetTour(Guid tourId, bool trackChanges)=>
+        public async Task<Tour?> GetTour(string tourId, bool trackChanges)=>
             await FindByCondition(t => t.Id.Equals(tourId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Tour>> GetAllTours(Guid exhibitionId, ToursParameters toursParameters,
+        public async Task<PagedList<Tour>> GetAllTours(string exhibitionId, ToursParameters toursParameters,
             bool trackChanges)
         {
             var tours = await FindByCondition(t => t.TourPlaces >= toursParameters.MinPlaces &&
-            t.TourPlaces <= toursParameters.MaxPlaces, trackChanges)
+            t.TourPlaces <= toursParameters.MaxPlaces && t.ExhibitionId.Equals(exhibitionId), trackChanges)
                 .Sort(toursParameters.OrderBy)
                 .ToListAsync();
 

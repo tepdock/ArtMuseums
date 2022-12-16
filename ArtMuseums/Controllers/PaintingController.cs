@@ -5,7 +5,6 @@ using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -34,8 +33,6 @@ namespace ArtMuseums.Controllers
         public async Task<IActionResult> GetPaintings([FromQuery]
         PaintigsParameters paintigsParameters)
         {
-            if (!paintigsParameters.ValidYearRange)
-                return BadRequest("Max year can't be less than min year");
 
             var paintings = await _repository.PaintingRepository.GetAllPaintings(paintigsParameters,
                 trackChanges: false);
@@ -49,7 +46,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("artist/{artistId}")]
-        public async Task<IActionResult> GetPaintingsByArtist(Guid artistId, [FromQuery]
+        public async Task<IActionResult> GetPaintingsByArtist(string artistId, [FromQuery]
         PaintigsParameters paintigsParameters)
         {
             var artist = await _repository.ArtistRepository.GetArtist(artistId, trackChanges: false);
@@ -70,7 +67,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetPaintingById")]
-        public async Task<IActionResult> GetPainting(Guid id)
+        public async Task<IActionResult> GetPainting(string id)
         {
             var painting = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
 
@@ -87,7 +84,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("exhibition/{exhibitionId}")]
-        public async Task<IActionResult> GetPaintingInExhibition(Guid exhibitionId, [FromQuery]
+        public async Task<IActionResult> GetPaintingInExhibition(string exhibitionId, [FromQuery]
         PaintigsParameters paintigsParameters)
         {
             var paintings = await _repository.PaintingRepository.GetPaintingsByExhibition(exhibitionId,
@@ -105,8 +102,14 @@ namespace ArtMuseums.Controllers
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreatePainting([FromBody] PaintingForCreationDto painting) 
         {
+            var artist = await _repository.ArtistRepository.GetArtistByName(painting.ArtistId, trackChanges: false);
+            if(artist == null)
+            {
+                return NotFound();
+            }
+            painting.ArtistId = artist.Id;
             var paintingEntity = _mapper.Map<Painting>(painting);
-
+            paintingEntity.Id = Guid.NewGuid().ToString();
             _repository.PaintingRepository.CreatePainting(paintingEntity);
             await _repository.SaveAsync();
 
@@ -116,7 +119,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeletePainting(Guid id)
+        public async Task<IActionResult> DeletePainting(string id)
         {
             var painting = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: false);
             if(painting == null)
@@ -133,7 +136,7 @@ namespace ArtMuseums.Controllers
 
         [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof (ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdatePainting(Guid id, [FromBody] PaintingForUpdateDto painting)
+        public async Task<IActionResult> UpdatePainting(string id, [FromBody] PaintingForUpdateDto painting)
         {
             var paintingEntity = await _repository.PaintingRepository.GetPaintingById(id, trackChanges: true);
             if(paintingEntity == null)

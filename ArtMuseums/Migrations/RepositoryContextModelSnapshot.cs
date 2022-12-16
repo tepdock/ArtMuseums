@@ -24,9 +24,8 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.Artist", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ArtistId");
 
                     b.Property<string>("Country")
@@ -46,19 +45,19 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"),
+                            Id = "3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f",
                             Country = "France",
                             Name = "Van Gogh"
                         },
                         new
                         {
-                            Id = new Guid("e528467c-2dfe-48fa-9e1a-739d2d0c0cd2"),
+                            Id = "e528467c-2dfe-48fa-9e1a-739d2d0c0cd2",
                             Country = "Russia",
                             Name = "Ivan Aivazovski"
                         },
                         new
                         {
-                            Id = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
+                            Id = "ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab",
                             Country = "Belarus",
                             Name = "Mark Shagal"
                         });
@@ -66,9 +65,8 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.ArtMuseum", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ArtMuseumId");
 
                     b.Property<string>("Adress")
@@ -88,13 +86,13 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("033c8277-9be5-451b-9936-87f4b07caae7"),
+                            Id = "033c8277-9be5-451b-9936-87f4b07caae7",
                             Adress = "st qwerty, 34",
                             Name = "General art museum"
                         },
                         new
                         {
-                            Id = new Guid("df77f745-2310-4bba-b157-c4f3434ff749"),
+                            Id = "df77f745-2310-4bba-b157-c4f3434ff749",
                             Adress = "street yung, 25",
                             Name = "Museum of modern arts"
                         });
@@ -102,13 +100,12 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.Exhibition", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ExpositionId");
 
-                    b.Property<Guid>("ArtMuseumId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ArtMuseumId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -130,14 +127,14 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
-                            ArtMuseumId = new Guid("033c8277-9be5-451b-9936-87f4b07caae7"),
+                            Id = "e5368172-b396-4960-8e67-ddffceefc98b",
+                            ArtMuseumId = "033c8277-9be5-451b-9936-87f4b07caae7",
                             Name = "exhibition of belarusian artists"
                         },
                         new
                         {
-                            Id = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
-                            ArtMuseumId = new Guid("df77f745-2310-4bba-b157-c4f3434ff749"),
+                            Id = "e177f248-6517-449c-9200-16b673c5beff",
+                            ArtMuseumId = "df77f745-2310-4bba-b157-c4f3434ff749",
                             Description = "exhibition of famous paintings from different times",
                             Name = "arts of world"
                         });
@@ -145,13 +142,12 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.Painting", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("PaintingId");
 
-                    b.Property<Guid>("ArtistId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ArtistId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
@@ -159,8 +155,8 @@ namespace ArtMuseums.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ExhibitionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ExhibitionId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -171,9 +167,9 @@ namespace ArtMuseums.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Year")
+                    b.Property<string>("Year")
                         .HasMaxLength(4)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(4)");
 
                     b.HasKey("Id");
 
@@ -186,46 +182,47 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("07ba5109-8aec-48ee-b7d9-21e2ce4f3312"),
-                            ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
+                            Id = "07ba5109-8aec-48ee-b7d9-21e2ce4f3312",
+                            ArtistId = "ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab",
                             Category = "Abstract",
                             Description = "Прогулка - Марк Захарович Шагал. 1917-1918. Холст, масло 169,6x163,4 см",
-                            ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
+                            ExhibitionId = "e5368172-b396-4960-8e67-ddffceefc98b",
                             Name = "a walk",
-                            Picture = "D:/asp.net core/pictures/progulka-shagal+.jpg",
-                            Year = 1918
+                            Picture = "https://res.cloudinary.com/dkt2qwk4f/image/upload/v1670924106/progulka-shagal_d0mxfj.jpg",
+                            Year = "1918"
                         },
                         new
                         {
-                            Id = new Guid("9d944131-b6ee-4b76-825b-fa6163a27787"),
-                            ArtistId = new Guid("ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab"),
+                            Id = "9d944131-b6ee-4b76-825b-fa6163a27787",
+                            ArtistId = "ffb62ca6-0c3e-4a64-9b22-5af9d79c08ab",
                             Category = "Modern",
-                            ExhibitionId = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
+                            Description = "Прогулка - Марк Захарович Шагал. 1917-1918. Холст, масло 169,6x163,4 см",
+                            ExhibitionId = "e177f248-6517-449c-9200-16b673c5beff",
                             Name = "Three Candles",
-                            Picture = "D:/asp.net core/pictures/triCvechiShagal.jpg",
-                            Year = 1940
+                            Picture = "https://res.cloudinary.com/dkt2qwk4f/image/upload/v1670924115/triCvechiShagal_bvnhcf.jpg",
+                            Year = "1940"
                         },
                         new
                         {
-                            Id = new Guid("58bde6fc-74f6-41ba-8d60-39424211cfc6"),
-                            ArtistId = new Guid("3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f"),
+                            Id = "58bde6fc-74f6-41ba-8d60-39424211cfc6",
+                            ArtistId = "3afac7d0-c751-4fc6-9f3d-b6c8e22fb05f",
                             Category = "Expresionism",
-                            ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
+                            Description = "The Starry Night (Dutch: De sterrennacht) is an oil-on-canvas painting by the Dutch Post-Impressionist painter Vincent van Gogh. Painted in June 1889, it depicts the view from the east-facing window of his asylum room at Saint-Rémy-de-Provence, just before sunrise, with the addition of an imaginary village.",
+                            ExhibitionId = "e5368172-b396-4960-8e67-ddffceefc98b",
                             Name = "Starry Night",
-                            Picture = "D:/asp.net core/pictures/VanGogh-starry_night_ballance1.jpg",
-                            Year = 1889
+                            Picture = "https://res.cloudinary.com/dkt2qwk4f/image/upload/v1670873513/VanGogh-starry_night_ballance1_dj6w1i.jpg",
+                            Year = "1889"
                         });
                 });
 
             modelBuilder.Entity("Entities.Models.Purchase", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("PurchaseId");
 
-                    b.Property<Guid>("TicketId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TicketId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -241,17 +238,16 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.Ticket", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("TicketId");
 
                     b.Property<int>("TicketCost")
                         .HasMaxLength(3)
                         .HasColumnType("int");
 
-                    b.Property<Guid>("TourId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("TourId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -262,16 +258,15 @@ namespace ArtMuseums.Migrations
 
             modelBuilder.Entity("Entities.Models.Tour", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("TourId");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("ExhibitionId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ExhibitionId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("TourPlaces")
                         .HasMaxLength(2)
@@ -286,26 +281,26 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("805ed4d2-bcf3-48cf-a722-94db044d43ac"),
-                            ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
+                            Id = "805ed4d2-bcf3-48cf-a722-94db044d43ac",
+                            ExhibitionId = "e5368172-b396-4960-8e67-ddffceefc98b",
                             TourPlaces = 20
                         },
                         new
                         {
-                            Id = new Guid("579acbef-ffbe-42fe-b26d-5f8befa41889"),
-                            ExhibitionId = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
+                            Id = "579acbef-ffbe-42fe-b26d-5f8befa41889",
+                            ExhibitionId = "e5368172-b396-4960-8e67-ddffceefc98b",
                             TourPlaces = 5
                         },
                         new
                         {
-                            Id = new Guid("769a5cb1-9b03-447f-a2d9-c8589a0c901d"),
-                            ExhibitionId = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
+                            Id = "769a5cb1-9b03-447f-a2d9-c8589a0c901d",
+                            ExhibitionId = "e177f248-6517-449c-9200-16b673c5beff",
                             TourPlaces = 20
                         },
                         new
                         {
-                            Id = new Guid("b177f615-4df7-4aa8-9f98-21f7a9a18f32"),
-                            ExhibitionId = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
+                            Id = "b177f615-4df7-4aa8-9f98-21f7a9a18f32",
+                            ExhibitionId = "e177f248-6517-449c-9200-16b673c5beff",
                             TourPlaces = 5
                         });
                 });
@@ -410,15 +405,15 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d992e200-ddd1-4cdd-b74e-697c71605665",
-                            ConcurrencyStamp = "a57561ad-c9bd-47d2-aac7-55406a36b762",
+                            Id = "0ec6d27b-275f-4c07-af36-831614e49e21",
+                            ConcurrencyStamp = "b5709be8-126b-4b8a-b7e5-334844ce6549",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "f4e5dc43-1ea6-4eb3-bb97-ca13535565ef",
-                            ConcurrencyStamp = "ec68f419-fb4d-4468-bcde-4ea7c76974f8",
+                            Id = "78761a06-d74e-405f-9bf3-b3ac42284f9a",
+                            ConcurrencyStamp = "f42aaefa-87e2-4ae6-8eba-66e0b1375f9d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -534,9 +529,7 @@ namespace ArtMuseums.Migrations
                 {
                     b.HasOne("Entities.Models.ArtMuseum", "ArtMuseum")
                         .WithMany("Exhibitions")
-                        .HasForeignKey("ArtMuseumId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArtMuseumId");
 
                     b.Navigation("ArtMuseum");
                 });
@@ -545,15 +538,11 @@ namespace ArtMuseums.Migrations
                 {
                     b.HasOne("Entities.Models.Artist", "Artist")
                         .WithMany("Paintings")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArtistId");
 
                     b.HasOne("Entities.Models.Exhibition", "Exhibition")
                         .WithMany("Paintigs")
-                        .HasForeignKey("ExhibitionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExhibitionId");
 
                     b.Navigation("Artist");
 
@@ -564,9 +553,7 @@ namespace ArtMuseums.Migrations
                 {
                     b.HasOne("Entities.Models.Ticket", "Ticket")
                         .WithMany("Purchases")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TicketId");
 
                     b.HasOne("Entities.Models.User", "User")
                         .WithMany("Purchases")
@@ -581,9 +568,7 @@ namespace ArtMuseums.Migrations
                 {
                     b.HasOne("Entities.Models.Tour", "Tour")
                         .WithMany("Tickets")
-                        .HasForeignKey("TourId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TourId");
 
                     b.Navigation("Tour");
                 });
@@ -592,9 +577,7 @@ namespace ArtMuseums.Migrations
                 {
                     b.HasOne("Entities.Models.Exhibition", "Exhibition")
                         .WithMany("Tours")
-                        .HasForeignKey("ExhibitionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ExhibitionId");
 
                     b.Navigation("Exhibition");
                 });

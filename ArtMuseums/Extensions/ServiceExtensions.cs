@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
+using System;
 
 namespace ArtMuseums.Extensions
 {
@@ -22,8 +23,8 @@ namespace ArtMuseums.Extensions
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
-                builder.AllowAnyHeader()
-                .AllowAnyOrigin()
+                builder.AllowAnyOrigin()
+                .WithHeaders("authorization", "accept", "content-type", "origin")
                 .AllowAnyMethod());
             });
 

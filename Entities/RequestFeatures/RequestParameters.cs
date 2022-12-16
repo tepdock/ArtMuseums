@@ -27,9 +27,6 @@ namespace Entities.RequestFeatures
         {
             OrderBy = "name";
         }
-        public uint MinYear { get; set; }
-        public uint MaxYear { get; set; } = (uint)DateTime.Now.Year;
-        public bool ValidYearRange => MaxYear > MinYear;
 
         public string Category { get; set; } 
 

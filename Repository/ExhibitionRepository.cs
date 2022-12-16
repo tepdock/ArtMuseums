@@ -19,11 +19,11 @@ namespace Repository
         {
         }
 
-        public async Task<Exhibition?> GetExhibition(Guid museumId, Guid exhibitionId, bool trackChanges) =>
-            await FindByCondition(e => e.Id.Equals(exhibitionId) && e.ArtMuseumId.Equals(museumId), trackChanges)
+        public async Task<Exhibition?> GetExhibition(string exhibitionId, bool trackChanges) =>
+            await FindByCondition(e => e.Id.Equals(exhibitionId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Exhibition>> GetAllExhibitions(Guid museumId, ExhibitionsParameters exhibitionsParameters,
+        public async Task<PagedList<Exhibition>> GetAllExhibitions(ExhibitionsParameters exhibitionsParameters,
             bool trackChanges)
         {
             var exhibitions = await FindAll(trackChanges)
@@ -35,15 +35,13 @@ namespace Repository
                 .ToPagedList(exhibitions, exhibitionsParameters.PageNumber, exhibitionsParameters.PageSize);
         }
 
-        public void CreateExhibition(Guid museumId, Exhibition exhibition) 
+        public void CreateExhibition(Exhibition exhibition) 
         {
-            exhibition.ArtMuseumId = museumId;
             Create(exhibition);
         }
 
-        public void DeleteExhibition(Guid museumId, Exhibition exhibition)
+        public void DeleteExhibition(Exhibition exhibition)
         {
-            exhibition.ArtMuseumId = museumId;
             Delete(exhibition);
         }
     }

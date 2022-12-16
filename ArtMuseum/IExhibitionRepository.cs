@@ -10,10 +10,10 @@ namespace ArtMuseum
 {
     public interface IExhibitionRepository
     {
-        Task<PagedList<Exhibition>> GetAllExhibitions(Guid museumId, ExhibitionsParameters exhibitionsParameters,
+        Task<PagedList<Exhibition>> GetAllExhibitions(ExhibitionsParameters exhibitionsParameters,
             bool trackChanges);
-        Task<Exhibition> GetExhibition(Guid museumId, Guid exhibitionId, bool trackChanges);
-        void CreateExhibition(Guid museumId, Exhibition exhibition);
-        void DeleteExhibition(Guid museumId, Exhibition exhibition);
+        Task<Exhibition> GetExhibition(string exhibitionId, bool trackChanges);
+        void CreateExhibition(Exhibition exhibition);
+        void DeleteExhibition(Exhibition exhibition);
     }
 }

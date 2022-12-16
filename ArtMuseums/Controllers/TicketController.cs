@@ -29,7 +29,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTickets(Guid tourId)
+        public async Task<IActionResult> GetTickets(string tourId)
         {
             var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);
             if (tour == null)
@@ -46,7 +46,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTicketById")]
-        public async Task<IActionResult> GetTicket(Guid ticketId, Guid tourId)
+        public async Task<IActionResult> GetTicket(string ticketId, string tourId)
         {
             var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);
             if(tour == null)
@@ -84,7 +84,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteTicket(Guid id)
+        public async Task<IActionResult> DeleteTicket(string id)
         {
             var ticket = await _repository.TicketRepository.GetTicketById(id, trackChanges: false);
             if(ticket == null)
@@ -101,7 +101,7 @@ namespace ArtMuseums.Controllers
 
         [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateTicket(Guid tourId, Guid id, 
+        public async Task<IActionResult> UpdateTicket(string tourId, string id, 
             [FromBody] TicketForUpdatingDto ticket)
         {
             var tour = await _repository.TourRepository.GetTour(tourId, trackChanges: false);

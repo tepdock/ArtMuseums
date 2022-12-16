@@ -31,7 +31,7 @@ namespace Repository
             .Sort(museumParameters.OrderBy)
             .ToListAsync();
 
-        public async Task<Entities.Models.ArtMuseum?> GetMuseum(Guid museumId, bool trackChanges) =>
+        public async Task<Entities.Models.ArtMuseum?> GetMuseum(string museumId, bool trackChanges) =>
             await FindByCondition(m => m.Id.Equals(museumId), trackChanges)
             .SingleOrDefaultAsync();
     }

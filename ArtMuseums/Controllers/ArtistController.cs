@@ -43,7 +43,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "ArtistById")]
-        public async Task<IActionResult> GetArtist(Guid id)
+        public async Task<IActionResult> GetArtist(string id)
         {
             var artist = await _repository.ArtistRepository.GetArtist(id, trackChanges: false);
             if(artist == null)
@@ -73,7 +73,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteArtist(Guid id)
+        public async Task<IActionResult> DeleteArtist(string id)
         {
             var artist = await _repository.ArtistRepository.GetArtist(id, trackChanges: false);
             if(artist == null)
@@ -90,7 +90,7 @@ namespace ArtMuseums.Controllers
 
         [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateArtist(Guid id, [FromBody] ArtistForUpdateDto artist)
+        public async Task<IActionResult> UpdateArtist(string id, [FromBody] ArtistForUpdateDto artist)
         {
             var artistEntity = await _repository.ArtistRepository.GetArtist(id, trackChanges: true);
             if(artistEntity == null)

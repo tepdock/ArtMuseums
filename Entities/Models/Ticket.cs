@@ -11,7 +11,7 @@ namespace Entities.Models
     public class Ticket
     {
         [Column("TicketId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [StringLength(3)]
@@ -20,7 +20,7 @@ namespace Entities.Models
         public ICollection<Purchase> Purchases { get; set; }
 
         [ForeignKey(nameof(Tour))]
-        public Guid TourId { get; set; }
+        public string TourId { get; set; }
         public Tour Tour { get; set; }
     }
 }

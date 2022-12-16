@@ -7,7 +7,7 @@ namespace Entities.Models
     public class Painting
     {
         [Column("PaintingId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "The Painting's name is a required field")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters")]
@@ -19,15 +19,15 @@ namespace Entities.Models
         public string Description { get; set; }
 
         [StringLength(4, ErrorMessage = "The Year field should be 4 characters long")]
-        public int Year { get; set; }
+        public string Year { get; set; }
         public string Category { get; set; } 
 
         [ForeignKey(nameof(Artist))]
-        public Guid ArtistId { get; set; }
+        public string ArtistId { get; set; }
         public Artist Artist { get; set; }
 
         [ForeignKey(nameof(Exhibition))]
-        public Guid ExhibitionId { get; set; }
+        public string ExhibitionId { get; set; }
         public Exhibition Exhibition { get; set; }
     }
 }

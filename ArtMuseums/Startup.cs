@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Cors;
 using NLog;
 
 namespace ArtMuseums
@@ -26,7 +27,15 @@ namespace ArtMuseums
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.SetIsOriginAllowed(isOriginAllowed: _ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
+            });
+
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
@@ -68,18 +77,19 @@ namespace ArtMuseums
             }
 
             app.ConfigureExceptionHandler(logger);
-            app.UseHttpsRedirection();
+
+
+            
+            app.UseRouting();
 
             app.UseStaticFiles();
-
-            app.UseCors("CorsPolicy");
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.All
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                   ForwardedHeaders.XForwardedProto
             });
-
-            app.UseRouting();
+            app.UseCors("CorsPolicy");
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();

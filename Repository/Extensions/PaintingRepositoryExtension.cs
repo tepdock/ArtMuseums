@@ -12,11 +12,11 @@ namespace Repository.Extensions
     public static class PaintingRepositoryExtension
     {
         public static IQueryable<Painting> FilterPaintigs(this IQueryable<Painting> paintings,
-            string category, uint minYear, uint maxYear) 
+            string category) 
         {
             if (category == null)
             {
-                return paintings.Where(p => (p.Year >= minYear && p.Year <= maxYear));
+                return paintings;
             }
             else return paintings.Where(p => p.Category.Equals(category));
         }

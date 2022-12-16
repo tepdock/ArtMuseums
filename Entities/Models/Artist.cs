@@ -11,7 +11,7 @@ namespace Entities.Models
     public class Artist
     {
         [Column("ArtistId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = "Artist's name is a required field")]
         [MaxLength(100, ErrorMessage = "Maximum Length fro the Name is 100 characters")]

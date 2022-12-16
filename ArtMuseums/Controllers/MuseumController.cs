@@ -39,7 +39,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMuseumById")]
-        public async Task<IActionResult> GetMuseum(Guid id)
+        public async Task<IActionResult> GetMuseum(string id)
         {
             var museum = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
             if(museum == null)
@@ -69,7 +69,7 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteMuseum(Guid id)
+        public async Task<IActionResult> DeleteMuseum(string id)
         {
             var museum = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: false);
             if (museum == null)
@@ -86,7 +86,7 @@ namespace ArtMuseums.Controllers
 
         [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateMuseum(Guid id, [FromBody] MuseumForUpdateDto museum)
+        public async Task<IActionResult> UpdateMuseum(string id, [FromBody] MuseumForUpdateDto museum)
         {
             var museumEntity = await _repository.ArtMuseumRepository.GetMuseum(id, trackChanges: true);
             if(museumEntity == null)

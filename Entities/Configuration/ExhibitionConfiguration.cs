@@ -16,16 +16,16 @@ namespace Entities.Configuration
                 (
                     new Models.Exhibition
                     {
-                        Id = new Guid("e5368172-b396-4960-8e67-ddffceefc98b"),
+                        Id = new string("e5368172-b396-4960-8e67-ddffceefc98b"),
                         Name = "exhibition of belarusian artists",
-                        ArtMuseumId = new Guid("033c8277-9be5-451b-9936-87f4b07caae7")
+                        ArtMuseumId = new string("033c8277-9be5-451b-9936-87f4b07caae7")
                     },
                     new Models.Exhibition 
                     { 
-                        Id = new Guid("e177f248-6517-449c-9200-16b673c5beff"),
+                        Id = new string("e177f248-6517-449c-9200-16b673c5beff"),
                         Name = "arts of world",
                         Description = "exhibition of famous paintings from different times",
-                        ArtMuseumId=new Guid("df77f745-2310-4bba-b157-c4f3434ff749")
+                        ArtMuseumId=new string("df77f745-2310-4bba-b157-c4f3434ff749")
                     }
                 );
         }

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
 {
-    [Route("api/museums/{museumId}/exhibitions")]
+    [Route("api/exhibitions")]
     [ApiController]
     public class ExhibitionController : ControllerBase
     {
@@ -33,16 +33,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetExhibitions(Guid museumId, [FromQuery] ExhibitionsParameters exhibitionsParameters)
+        public async Task<IActionResult> GetExhibitions([FromQuery] ExhibitionsParameters exhibitionsParameters)
         {
-            var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
-            if (museum == null)
-            {
-                _logger.Info($"meseum with id: {museumId} doesnt exist");
-                return NotFound();
-            }
-
-            var exhibitions = await _repository.ExhibitionRepository.GetAllExhibitions(museumId, exhibitionsParameters,
+            var exhibitions = await _repository.ExhibitionRepository.GetAllExhibitions(exhibitionsParameters,
                 trackChanges: false);
 
             Response.Headers.Add("X-Pagination",
@@ -54,16 +47,9 @@ namespace ArtMuseums.Controllers
         }
 
         [HttpGet("{id}", Name = "GetExhibitionById")]
-        public async Task<IActionResult> GetExhibition(Guid museumId, Guid id)
+        public async Task<IActionResult> GetExhibition( string id)
         {
-            var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
-            if (museum == null)
-            {
-                _logger.Info($"Museum with id: {museumId} doesn't exist");
-                return NotFound();
-            }
-
-            var exhibition = await _repository.ExhibitionRepository.GetExhibition(museumId, id, trackChanges: false);
+            var exhibition = await _repository.ExhibitionRepository.GetExhibition(id, trackChanges: false);
             if (exhibition == null)
             {
                 _logger.Info($"exhibition with id: {id} doesn't exist");
@@ -78,45 +64,31 @@ namespace ArtMuseums.Controllers
 
         [HttpPost, Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> CreateExhibitionForMuseum(Guid museumId, [FromBody]
+        public async Task<IActionResult> CreateExhibitionForMuseum([FromBody]
         ExhibitionForCreationDto exhibition)
         {
-            var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
-            if (museum == null)
-            {
-                _logger.Info($"Museum with id: {museumId} doesnt exist");
-                return NotFound();
-            }
-
             var exhibitionEntity = _mapper.Map<Exhibition>(exhibition);
 
-            _repository.ExhibitionRepository.CreateExhibition(museumId, exhibitionEntity);
+            _repository.ExhibitionRepository.CreateExhibition(exhibitionEntity);
             await _repository.SaveAsync();
 
             var exhibitionForReturn = _mapper.Map<ExhibitionDto>(exhibitionEntity);
 
-            return CreatedAtRoute("GetExhibitionById", new { museumId, id = exhibitionForReturn.Id },
+            return CreatedAtRoute("GetExhibitionById", new { id = exhibitionForReturn.Id },
                 exhibitionForReturn);
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> DeleteExhibition(Guid museumId, Guid id)
+        public async Task<IActionResult> DeleteExhibition( string id)
         {
-            var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
-            if (museum == null)
-            {
-                _logger.Info($"Museum with id: {museumId} does not exist");
-                return NotFound();
-            }
-
-            var exhibition = await _repository.ExhibitionRepository.GetExhibition(museumId, id, trackChanges: false);
+            var exhibition = await _repository.ExhibitionRepository.GetExhibition(id, trackChanges: false);
             if (exhibition == null)
             {
                 _logger.Info($"Exhibition with id: {id} does not exist");
                 return NotFound();
             }
 
-            _repository.ExhibitionRepository.DeleteExhibition(museumId, exhibition);
+            _repository.ExhibitionRepository.DeleteExhibition(exhibition);
             await _repository.SaveAsync();
 
             return NoContent();
@@ -124,17 +96,10 @@ namespace ArtMuseums.Controllers
 
         [HttpPut("{id}"), Authorize(Roles = "Administrator")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> UpdateExhibition(Guid museumId, Guid id,
+        public async Task<IActionResult> UpdateExhibition(string id,
             [FromBody] ExhibitionForUpdateDto exhibition)
         { 
-            var museum = await _repository.ArtMuseumRepository.GetMuseum(museumId, trackChanges: false);
-            if(museum == null)
-            {
-                _logger.Info($"museum with id: {museumId} doesn't exist");
-                return NotFound();
-            }
-
-            var exhibitionEntity = await _repository.ExhibitionRepository.GetExhibition(museumId, id, trackChanges: true);
+            var exhibitionEntity = await _repository.ExhibitionRepository.GetExhibition(id, trackChanges: true);
             if(exhibitionEntity == null)
             {
                 _logger.Info($"exhibition with id: {id} doesn't exist");

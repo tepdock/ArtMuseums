@@ -31,12 +31,17 @@ namespace Repository
                 .ToPagedList(artists, artistsParameters.PageNumber, artistsParameters.PageSize);
         }
 
-        public async Task<Artist?> GetArtist(Guid artisId, bool trackChanges)=>
+        public async Task<Artist?> GetArtist(string artisId, bool trackChanges)=>
             await FindByCondition(a => a.Id.Equals(artisId), trackChanges)
             .SingleOrDefaultAsync();
 
         public void CreateArtist(Artist artist) => Create(artist);
 
         public void DeleteArtist(Artist artist) => Delete(artist);
+
+        public async Task<Artist?> GetArtistByName(string name, bool trackChanges) =>
+            await FindByCondition(a => a.Name.Equals(name), trackChanges)
+                .SingleOrDefaultAsync();
+
     }
 }

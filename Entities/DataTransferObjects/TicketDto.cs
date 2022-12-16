@@ -8,7 +8,7 @@ namespace Entities.DataTransferObjects
 {
     public class TicketDto
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public int TicketCost { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Entities.Models
     public class Tour
     {
         [Column("TourId")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
         [MaxLength(2, ErrorMessage = "Maximum length for the TourPlaces is 2 characters")]
@@ -22,7 +22,7 @@ namespace Entities.Models
         public ICollection<Ticket> Tickets { get; set; }
 
         [ForeignKey(nameof(Exhibition))]
-        public Guid ExhibitionId { get; set; }
+        public string ExhibitionId { get; set; }
         public Exhibition Exhibition { get; set; }
     }
 }

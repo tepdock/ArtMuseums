@@ -11,8 +11,8 @@ namespace Entities.DataTransferObjects
         [Required(ErrorMessage = "Picture is required")]
         public string Picture { get; set; }
 
-        [StringLength(4, ErrorMessage = "The Year field should be 4 characters long")]
-        public int Year { get; set; }
+        [MaxLength(4, ErrorMessage = "The Year field should be 4 characters long")]
+        public string Year { get; set; }
 
         public string Category { get; set; }
     }
