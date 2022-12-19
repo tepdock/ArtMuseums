@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArtMuseums.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20221214130838_SecondInitial")]
-    partial class SecondInitial
+    [Migration("20221217193501_Initialv3")]
+    partial class Initialv3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -223,39 +223,15 @@ namespace ArtMuseums.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("PurchaseId");
 
-                    b.Property<string>("TicketId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("TourName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TicketId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("Entities.Models.Ticket", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("TicketId");
-
-                    b.Property<int>("TicketCost")
-                        .HasMaxLength(3)
-                        .HasColumnType("int");
-
-                    b.Property<string>("TourId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TourId");
-
-                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("Entities.Models.Tour", b =>
@@ -407,15 +383,15 @@ namespace ArtMuseums.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0ec6d27b-275f-4c07-af36-831614e49e21",
-                            ConcurrencyStamp = "b5709be8-126b-4b8a-b7e5-334844ce6549",
+                            Id = "b4542aab-db51-4691-ad13-9a1173575e35",
+                            ConcurrencyStamp = "41d5b981-91e0-4a13-8176-106313ac9040",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "78761a06-d74e-405f-9bf3-b3ac42284f9a",
-                            ConcurrencyStamp = "f42aaefa-87e2-4ae6-8eba-66e0b1375f9d",
+                            Id = "f4b48d59-090c-413f-9514-404e41698b6c",
+                            ConcurrencyStamp = "857f14be-e0d0-4258-a41e-c4b42c4fe98d",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -551,30 +527,6 @@ namespace ArtMuseums.Migrations
                     b.Navigation("Exhibition");
                 });
 
-            modelBuilder.Entity("Entities.Models.Purchase", b =>
-                {
-                    b.HasOne("Entities.Models.Ticket", "Ticket")
-                        .WithMany("Purchases")
-                        .HasForeignKey("TicketId");
-
-                    b.HasOne("Entities.Models.User", "User")
-                        .WithMany("Purchases")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Ticket");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Models.Ticket", b =>
-                {
-                    b.HasOne("Entities.Models.Tour", "Tour")
-                        .WithMany("Tickets")
-                        .HasForeignKey("TourId");
-
-                    b.Navigation("Tour");
-                });
-
             modelBuilder.Entity("Entities.Models.Tour", b =>
                 {
                     b.HasOne("Entities.Models.Exhibition", "Exhibition")
@@ -650,21 +602,6 @@ namespace ArtMuseums.Migrations
                     b.Navigation("Paintigs");
 
                     b.Navigation("Tours");
-                });
-
-            modelBuilder.Entity("Entities.Models.Ticket", b =>
-                {
-                    b.Navigation("Purchases");
-                });
-
-            modelBuilder.Entity("Entities.Models.Tour", b =>
-                {
-                    b.Navigation("Tickets");
-                });
-
-            modelBuilder.Entity("Entities.Models.User", b =>
-                {
-                    b.Navigation("Purchases");
                 });
 #pragma warning restore 612, 618
         }

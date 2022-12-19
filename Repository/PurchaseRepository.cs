@@ -17,14 +17,10 @@ namespace Repository
             await FindByCondition(b => b.Id.Equals(purchaseId), trackChanges)
             .SingleOrDefaultAsync();
 
-        public async Task<PagedList<Purchase>> GetPurchasesByUser(string userid, PurchaseParameters purchaseParameters,
-            bool trackChanges)
-        {
-            var purchases = await FindByCondition(p => p.UserId.Equals(userid), trackChanges)
-                .ToListAsync();
-
-            return PagedList<Purchase>.ToPagedList(purchases, purchaseParameters.PageNumber, purchaseParameters.PageSize);
-        }
+        public async Task<IEnumerable<Purchase?>> GetPurchasesByUser(string userName,
+            bool trackChanges) =>
+            await FindByCondition(m => m.UserName.Equals(userName), trackChanges)
+            .ToListAsync();
 
         public void CreatePurchase(Purchase purchase) => Create(purchase);
 

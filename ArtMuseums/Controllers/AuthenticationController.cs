@@ -3,11 +3,9 @@ using ArtMuseums.ActionFilters;
 using AutoMapper;
 using Entities.DataTransferObjects;
 using Entities.Models;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArtMuseums.Controllers
@@ -21,7 +19,7 @@ namespace ArtMuseums.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IAuthenticationManager _authManager;
 
-        public AuthenticationController(ILoggerManager logger, IMapper mapper, 
+        public AuthenticationController(ILoggerManager logger, IMapper mapper,
             UserManager<User> userManager, IAuthenticationManager authManager)
         {
             _logger = logger;
@@ -41,7 +39,7 @@ namespace ArtMuseums.Controllers
             userForRegistration)
         {
             var user = _mapper.Map<User>(userForRegistration);
-            
+
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {
@@ -52,8 +50,7 @@ namespace ArtMuseums.Controllers
 
                 return BadRequest(ModelState);
             }
-            IEnumerable<string> roles = System.Array.Empty<string>();
-            roles.Append(userForRegistration.Roles);
+            IEnumerable<string> roles = new string[] { userForRegistration.Roles };
             await _userManager.AddToRolesAsync(user, roles);
 
             return StatusCode(201);
@@ -66,7 +63,7 @@ namespace ArtMuseums.Controllers
         /// <returns></returns>
         [HttpPost("login")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
-        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto 
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDto
             user)
         {
             if (!await _authManager.ValidateUser(user))
@@ -75,7 +72,7 @@ namespace ArtMuseums.Controllers
                 return Unauthorized();
             }
 
-            return Ok(new {Token = await _authManager.CreateToken()});
+            return Ok(new { Token = await _authManager.CreateToken() });
         }
     }
 }

@@ -64,6 +64,7 @@ namespace ArtMuseums.Controllers
         {
             var artistEntity = _mapper.Map<Artist>(artist);
 
+            artistEntity.Id = Guid.NewGuid().ToString();
             _repository.ArtistRepository.CreateArtist(artistEntity);
             await _repository.SaveAsync();
 

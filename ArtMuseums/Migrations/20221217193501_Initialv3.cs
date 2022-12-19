@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ArtMuseums.Migrations
 {
-    public partial class SecondInitial : Migration
+    public partial class Initialv3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,6 +74,19 @@ namespace ArtMuseums.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Purchases",
+                columns: table => new
+                {
+                    PurchaseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TourName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Purchases", x => x.PurchaseId);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,47 +262,6 @@ namespace ArtMuseums.Migrations
                         principalColumn: "ExpositionId");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Tickets",
-                columns: table => new
-                {
-                    TicketId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TicketCost = table.Column<int>(type: "int", maxLength: 3, nullable: false),
-                    TourId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
-                    table.ForeignKey(
-                        name: "FK_Tickets_Tours_TourId",
-                        column: x => x.TourId,
-                        principalTable: "Tours",
-                        principalColumn: "TourId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Purchases",
-                columns: table => new
-                {
-                    PurchaseId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TicketId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Purchases", x => x.PurchaseId);
-                    table.ForeignKey(
-                        name: "FK_Purchases_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Purchases_Tickets_TicketId",
-                        column: x => x.TicketId,
-                        principalTable: "Tickets",
-                        principalColumn: "TicketId");
-                });
-
             migrationBuilder.InsertData(
                 table: "ArtMuseums",
                 columns: new[] { "ArtMuseumId", "Adress", "Name" },
@@ -314,8 +286,8 @@ namespace ArtMuseums.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0ec6d27b-275f-4c07-af36-831614e49e21", "b5709be8-126b-4b8a-b7e5-334844ce6549", "Administrator", "ADMINISTRATOR" },
-                    { "78761a06-d74e-405f-9bf3-b3ac42284f9a", "f42aaefa-87e2-4ae6-8eba-66e0b1375f9d", "User", "USER" }
+                    { "b4542aab-db51-4691-ad13-9a1173575e35", "41d5b981-91e0-4a13-8176-106313ac9040", "Administrator", "ADMINISTRATOR" },
+                    { "f4b48d59-090c-413f-9514-404e41698b6c", "857f14be-e0d0-4258-a41e-c4b42c4fe98d", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -404,21 +376,6 @@ namespace ArtMuseums.Migrations
                 column: "ExhibitionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Purchases_TicketId",
-                table: "Purchases",
-                column: "TicketId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Purchases_UserId",
-                table: "Purchases",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_TourId",
-                table: "Tickets",
-                column: "TourId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tours_ExhibitionId",
                 table: "Tours",
                 column: "ExhibitionId");
@@ -448,19 +405,16 @@ namespace ArtMuseums.Migrations
                 name: "Purchases");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Tours");
 
             migrationBuilder.DropTable(
-                name: "Artists");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Tickets");
-
-            migrationBuilder.DropTable(
-                name: "Tours");
+                name: "Artists");
 
             migrationBuilder.DropTable(
                 name: "Exhibitions");

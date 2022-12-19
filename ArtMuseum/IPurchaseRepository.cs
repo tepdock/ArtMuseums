@@ -1,8 +1,5 @@
 ﻿using Entities.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ArtMuseum
@@ -10,6 +7,9 @@ namespace ArtMuseum
     public interface IPurchaseRepository
     {
         Task<Purchase> GetPurchase(string purchaseId, bool trackChanges);
-
+        Task<IEnumerable<Purchase?>> GetPurchasesByUser(string userName,
+            bool trackChanges);
+        void CreatePurchase(Purchase purchase);
+        void DeletePurchase(Purchase purchase);
     }
 }

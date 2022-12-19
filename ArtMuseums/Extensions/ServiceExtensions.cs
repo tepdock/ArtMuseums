@@ -49,8 +49,8 @@ namespace ArtMuseums.Extensions
         {
             var builder = services.AddIdentityCore<User>(u =>
             {
-                u.Password.RequireDigit = true;
-                u.Password.RequiredLength = 10;
+                u.Password.RequireDigit = false;
+                u.Password.RequiredLength = 8;
                 u.Password.RequireNonAlphanumeric = false;
                 u.Password.RequireUppercase = false;
                 u.Password.RequireLowercase = false;

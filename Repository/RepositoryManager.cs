@@ -14,10 +14,9 @@ namespace Repository
         private IPaintingRepository _paintingRepository;
         private IArtistRepository _artistRepository;
         private IArtMuseumRepository _artMuseumRepository;
-        private ITicketRepository _ticketRepository;
         private ITourRepository _tourRepository;
         private IExhibitionRepository _exhibitionRepository;
-        private IPurchaseRepository _basketRepository;
+        private IPurchaseRepository _purchaseRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -32,17 +31,6 @@ namespace Repository
                     _tourRepository = new TourRepository(_repositoryContext);
 
                 return _tourRepository;
-            }
-        }
-
-        public ITicketRepository TicketRepository
-        {
-            get
-            {
-                if (_ticketRepository == null)
-                    _ticketRepository = new TicketRepository(_repositoryContext);
-
-                return _ticketRepository;
             }
         }
 
@@ -90,14 +78,14 @@ namespace Repository
             }
         }
 
-        public IPurchaseRepository BusketRepository
+        public IPurchaseRepository PurchaseRepository
         {
             get
             {
-                if (_basketRepository == null)
-                    _basketRepository = new PurchaseRepository(_repositoryContext);
+                if (_purchaseRepository == null)
+                    _purchaseRepository = new PurchaseRepository(_repositoryContext);
 
-                return _basketRepository;
+                return _purchaseRepository;
             }
         }
 

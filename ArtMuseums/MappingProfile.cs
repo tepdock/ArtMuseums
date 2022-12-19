@@ -23,10 +23,9 @@ namespace ArtMuseums
             CreateMap<Painting, PaintingDto>();
             CreateMap<PaintingForCreationDto, Painting>();
             CreateMap<PaintingForUpdateDto, Painting>();
-            
-            CreateMap<Ticket, TicketDto>();
-            CreateMap<TicketForCreationDto, Ticket>();
-            CreateMap<TicketForUpdatingDto, Ticket>();
+
+            CreateMap<Purchase, PurchaseDto>();
+            CreateMap<PurchaseDto, Purchase>();
             
             CreateMap<Tour, TourDto>();
             CreateMap<TourForCreationDto, Tour>();

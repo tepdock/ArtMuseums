@@ -68,7 +68,7 @@ namespace ArtMuseums.Controllers
         ExhibitionForCreationDto exhibition)
         {
             var exhibitionEntity = _mapper.Map<Exhibition>(exhibition);
-
+            exhibitionEntity.Id = Guid.NewGuid().ToString();
             _repository.ExhibitionRepository.CreateExhibition(exhibitionEntity);
             await _repository.SaveAsync();
 

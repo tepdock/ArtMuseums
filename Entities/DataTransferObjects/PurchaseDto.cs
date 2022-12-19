@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Entities.Models
+﻿namespace Entities.DataTransferObjects
 {
-    public class Purchase
+    public class PurchaseDto
     {
-        [Column("PurchaseId")]
         public string Id { get; set; }
 
         public string TourName { get; set; }

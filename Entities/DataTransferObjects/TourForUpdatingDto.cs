@@ -9,7 +9,5 @@ namespace Entities.DataTransferObjects
     public class TourForUpdatingDto : TourManipulationDto
     {
         public string Description { get; set; }
-
-        public IEnumerable<TicketForCreationDto> Tickets { get; set; }
     }
 }

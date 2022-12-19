@@ -2,11 +2,6 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
@@ -34,8 +29,7 @@ namespace Entities
         public DbSet<ArtMuseum> ArtMuseums { get; set; }
         public DbSet<Exhibition> Exhibitions { get; set; }
         public DbSet<Painting> Paintings { get; set; }
-        public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Tour> Tours { get; set; }
-        public DbSet<Purchase> Purchases{ get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
     }
 }

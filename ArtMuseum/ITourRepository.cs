@@ -12,6 +12,7 @@ namespace ArtMuseum
     {
         Task<PagedList<Tour>> GetAllTours(string exhibitionId, ToursParameters toursParameters, bool trackChanges);
         Task<Tour> GetTour(string tourId, bool trackChanges);
+        Task<Tour> GetTourByDescr (string descr, bool trackChanges);
         void CreateTour(Tour tour);
         void DeleteTour(Tour tour);
     }

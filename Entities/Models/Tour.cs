@@ -19,8 +19,6 @@ namespace Entities.Models
 
         public string Description { get; set; }
 
-        public ICollection<Ticket> Tickets { get; set; }
-
         [ForeignKey(nameof(Exhibition))]
         public string ExhibitionId { get; set; }
         public Exhibition Exhibition { get; set; }

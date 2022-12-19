@@ -70,5 +70,5 @@ namespace Entities.RequestFeatures
         public string SearchTerm { get; set; }
     }
 
-    public class PurchaseParameters : RequestParameters { }
+
 }

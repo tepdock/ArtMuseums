@@ -35,6 +35,10 @@ namespace Repository
                 .ToPagedList(tours, toursParameters.PageNumber, toursParameters.PageSize);
         }
 
+        public async Task<Tour?> GetTourByDescr(string descr, bool trackChanges) =>
+            await FindByCondition(t => t.Description.Equals(descr), trackChanges)
+            .SingleOrDefaultAsync();
+
         public void CreateTour(Tour tour) => Create(tour);
         public void DeleteTour(Tour tour) => Delete(tour);
     }
